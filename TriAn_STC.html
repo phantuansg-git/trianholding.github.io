@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC Năng lượng & Công nghệ - Master Execution Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ecfeff',
+                primaryTextColor: '#083344',
+                primaryBorderColor: '#67e8f9',
+                lineColor: '#06b6d4',
+                secondaryColor: '#f0fdfa',
+                tertiaryColor: '#ecfeff'
+            },
+            securityLevel: 'loose',
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' }
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border-radius: 1rem; }
+        .gradient-bg { background: linear-gradient(135deg, #0891b2 0%, #0f766e 100%); }
+        .text-gradient { background: linear-gradient(90deg, #06b6d4, #14b8a6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; }
+        .mermaid svg { min-width: 1100px; height: auto; max-height: 800px; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #67e8f9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <nav class="bg-slate-900 text-white shadow-xl sticky top-0 z-50 border-b-4 border-yellow-500">
+        <div class="max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition cursor-pointer">
+                    <i class="fa-solid fa-building-columns text-2xl text-yellow-400"></i>
+                    <span class="text-xl font-extrabold tracking-tight hidden sm:block">TRỊ AN HOLDING</span>
+                </a>
+                
+                <div class="hidden md:flex space-x-1">
+                    <a href="index.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition"><i class="fa-solid fa-house mr-1"></i> Tổng Quan</a>
+                    <a href="TriAn_MasterPlan_V2.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Heritage (Thương Mại)</a>
+                    <a href="TriAn_HTX.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">HTX (Sản Xuất)</a>
+                    <a href="TriAn_DaoCEO.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Đảo CEO (Hạ Tầng)</a>
+                    <a href="TriAn_STC.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">STC (Công Nghệ)</a>
+                    <a href="TriAn_GreenTravel.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Travel (Dịch Vụ)</a>
+                    <a href="TriAn_Community.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Community (Cộng Đồng)</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <span class="bg-yellow-900/50 text-yellow-200 text-xs font-semibold px-3 py-1 rounded-full border border-yellow-500 hidden lg:block">System Interconnected</span>
+                </div>
+            </div>
+            
+            <div class="md:hidden flex space-x-2 mt-3 overflow-x-auto pb-2">
+                <a href="index.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Tổng Quan</a>
+                <a href="TriAn_MasterPlan_V2.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Heritage</a>
+                <a href="TriAn_HTX.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">HTX</a>
+                <a href="TriAn_DaoCEO.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Đảo CEO</a>
+                <a href="TriAn_STC.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">STC</a>
+                <a href="TriAn_GreenTravel.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Travel</a>
+                <a href="TriAn_Community.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Community</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-[95%] mx-auto mt-10 space-y-12">
+
+        <div class="text-center space-y-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Quy Hoạch Xương Sống <span class="text-gradient">Năng Lượng & IoT</span></h1>
+            <p class="text-lg text-slate-600 max-w-4xl mx-auto leading-relaxed">STC cung cấp hạ tầng chuyển đổi số, năng lượng tái tạo cho toàn bộ hệ sinh thái, đồng thời nhân rộng mô hình "Agrivoltaics" (Nông nghiệp dưới pin mặt trời) để phát triển quỹ đất và mở ra nguồn thu từ chứng chỉ Carbon.</p>
+        </div>
+
+        <section class="glass-card p-6 md:p-8 border-t-4 border-cyan-600">
+            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-cyan-100 text-cyan-800 rounded-lg"><i class="fa-solid fa-network-wired text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">1. Ma Trận Dịch Vụ & Chuyển Giao Công Nghệ STC</h2>
+            </div>
+            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
+                <div class="mermaid">
+                    mindmap
+                      root((STC NĂNG LƯỢNG & TECH))
+                        Cung Cấp Năng Lượng Xanh
+                          Điện mặt trời mái nhà (Cho HTX)
+                          Hệ thống Off-grid (Cho Đảo CEO)
+                          Thương mại điện DPPA (Bán ra ngoài)
+                        Nông Nghiệp Công Nghệ Cao (Agri-Tech)
+                          Cảm biến nước cho Cá Lăng
+                          Cảm biến đất và vi khí hậu
+                          Hệ thống tưới tiêu tự động
+                        Chuyển Đổi Số (Digital)
+                          Hệ thống ERP Tập đoàn
+                          Data Center & App Green Travel
+                          QR Code Truy xuất nguồn gốc
+                        Tín Chỉ Carbon & ESG
+                          Đo lường dấu chân Carbon
+                          Phát hành Chứng chỉ I-REC
+                          Tư vấn ESG cho đối tác
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-6 md:p-8 border-t-4 border-teal-600">
+            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-teal-100 text-teal-800 rounded-lg"><i class="fa-solid fa-timeline text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">2. Lộ Trình Phủ Xanh & Mở Rộng Quy Mô (2026 - 2027)</h2>
+            </div>
+            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
+                <div class="mermaid">
+                    graph LR
+                        classDef phase fill:#083344,stroke:#0e7490,stroke-width:2px,color:#fff,font-weight:bold,font-size:16px,padding:10px;
+                        classDef action fill:#ffffff,stroke:#06b6d4,stroke-width:2px,color:#1e293b,font-size:14px;
+                        classDef milestone fill:#ecfeff,stroke:#06b6d4,stroke-width:2px,color:#083344,font-weight:bold;
+
+                        P1["GĐ 1: PHỦ XANH NỘI BỘ & SỐ HÓA"]:::phase
+                        P2["GĐ 2: NHÂN RỘNG MÔ HÌNH NÔNG HỘ"]:::phase
+                        P3["GĐ 3: THƯƠNG MẠI HÓA DPPA & B2B"]:::phase
+
+                        P1 --> P2 --> P3
+
+                        %% Phase 1
+                        A1("1. Lắp Solar mái xưởng Liên Minh HTX"):::action
+                        A2("2. Cài đặt ERP & CRM cho toàn Trị An Holding"):::action
+                        A3("3. Triển khai IoT đo lường vi khí hậu"):::action
+                        A4{"Milestone 1:<br/>Giảm 30% Chi phí điện<br/>Số hóa toàn diện"}:::milestone
+
+                        P1 --> A1 & A2 & A3
+                        A1 & A2 & A3 --> A4
+
+                        %% Phase 2
+                        B1("1. Gói combo Điện Mặt Trời + Bao tiêu Nông sản"):::action
+                        B2("2. STC đầu tư pin mái, HTX chăn nuôi bên dưới"):::action
+                        B3("3. Cung cấp App quản lý Farm cho Nông dân"):::action
+                        B4{"Milestone 2:<br/>Mở rộng +50 hecta<br/>Quỹ đất liên kết"}:::milestone
+
+                        P2 --> B1 & B2 & B3
+                        A4 -. "Scale up" .-> B1
+                        B1 & B2 & B3 --> B4
+
+                        %% Phase 3
+                        C1("1. Đăng ký bán điện trực tiếp (DPPA) cho KCN"):::action
+                        C2("2. Hoàn thiện hồ sơ phát hành tín chỉ I-REC"):::action
+                        C3("3. Bán giải pháp Smart Farm cho trang trại khác"):::action
+                        C4{"Milestone 3:<br/>STC trở thành<br/>Trung tâm Lợi nhuận (Profit Center)"}:::milestone
+
+                        P3 --> C1 & C2 & C3
+                        B4 -. "Monetize" .-> C1
+                        C1 & C2 & C3 --> C4
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">3. Kế Hoạch Hành Động Chi Tiết Khối Năng Lượng & Công Nghệ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="glass-card p-6 border-t-4 border-cyan-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-bolt text-2xl text-cyan-500"></i>
+                        <h3 class="text-xl font-bold">I. Tối Ưu Năng Lượng Nội Bộ (Captive Power)</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Hạ tầng HTX:</strong> Thi công hệ thống điện mặt trời áp mái (Rooftop Solar) trên các xưởng chế biến đông lạnh. Các hệ thống máy nén lạnh ngốn rất nhiều điện, dùng solar sẽ cắt giảm trực tiếp 30-40% Giá vốn hàng bán (COGS) cho Heritage.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Hạ tầng Đảo CEO:</strong> Lắp đặt hệ thống Solar Độc lập (Off-grid) kèm Pin lưu trữ (ESS), biến Đảo CEO thành ốc đảo sinh thái 100% không dùng lưới điện quốc gia. Đảo CEO sẽ trả "tiền điện" nội bộ cho STC hàng tháng.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 border-t-4 border-teal-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-seedling text-2xl text-teal-500"></i>
+                        <h3 class="text-xl font-bold">II. Mô Hình "Agrivoltaics" & Mở Rộng Liên Kết</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Sự kết hợp hoàn hảo:</strong> STC không mua đất. STC ký hợp đồng với nông dân: STC sẽ đầu tư khung giàn và tấm pin mặt trời trên đất của nông dân. Bên dưới giàn pin, nông dân trồng Sâm Cau (loài cây ưa bóng râm) hoặc nuôi gà.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Lợi ích kép (Win-Win):</strong> STC thu tiền từ việc bán điện lưới. HTX mua lại Sâm Cau/Gà của nông dân với chất lượng chuẩn. Nông dân có thêm thu nhập từ tiền cho thuê mái/bóng râm mà vẫn canh tác được.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Gói giải pháp Turnkey:</strong> Đóng gói mô hình "Smart Farm" này để đi chào bán cho các quỹ đất nông nghiệp nhàn rỗi tại Đồng Nai.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 border-t-4 border-sky-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-server text-2xl text-sky-500"></i>
+                        <h3 class="text-xl font-bold">III. Hạ Tầng Công Nghệ & Dữ Liệu (IoT/ERP)</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Ứng dụng IoT vào Thủy sản:</strong> Lắp đặt các trạm phao cảm biến (Sensor Buoys) tại vùng nuôi Cá Lăng để đo nồng độ Oxy hòa tan, pH, nhiệt độ nước 24/7. Cảnh báo tự động qua App để tránh rủi ro cá chết hàng loạt.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Nền tảng ERP Holding:</strong> STC đóng vai trò là "Tổng công trình sư" triển khai hệ thống phần mềm kế toán, kho bãi liên thông giữa HTX (sản xuất) và Heritage (bán hàng).</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Hệ thống QR Blockchain:</strong> Tạo ra các mã QR truy xuất nguồn gốc không thể làm giả, dán lên bao bì Heritage.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 border-t-4 border-blue-600 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-leaf text-2xl text-blue-600"></i>
+                        <h3 class="text-xl font-bold">IV. Tín Chỉ Carbon & Doanh Thu Độc Lập B2B</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Cơ chế DPPA:</strong> Tận dụng Nghị định Mua bán điện trực tiếp (DPPA) năm 2025. STC lắp đặt các dự án điện mặt trời lớn và ký hợp đồng bán điện trực tiếp cho các nhà máy trong Khu công nghiệp lân cận (Amata, Biên Hòa).</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Tín chỉ REC & Carbon:</strong> Thu thập dữ liệu giảm phát thải từ các dự án điện mặt trời và rừng sinh thái Đảo CEO để đăng ký chứng nhận I-REC. Bán chứng chỉ này cho các tập đoàn đa quốc gia (FDI) đang cần bù đắp dấu chân Carbon.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Tách hạch toán độc lập:</strong> Biến STC từ một phòng ban "tiêu tiền" của tập đoàn thành một công ty công nghệ có dòng doanh thu (Revenue Stream) B2B độc lập, đóng góp lợi nhuận gộp cho Holding.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="text-center py-8 text-slate-500 text-sm mt-10 border-t border-slate-200">
+        <p class="font-bold">© 2026 TRỊ AN HOLDING ECOSYSTEM - KHỐI NĂNG LƯỢNG & CÔNG NGHỆ STC.</p>
+        <p class="mt-1">Designed by Executive Strategy Consulting Team</p>
+    </footer>
+
+</body>
+</html>

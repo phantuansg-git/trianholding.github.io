@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trị An Holding - Execution Roadmap 2026-2027</title>
+    <style>
+        :root {
+            --heritage-color: #4CAF50; /* Green */
+            --htx-color: #9C27B0; /* Purple */
+            --travel-color: #1976D2; /* Blue */
+            --stc-color: #00BCD4; /* Cyan */
+            --holding-color: #FFC107; /* Gold */
+            --bg-color: #f4f7f6;
+            --text-main: #333;
+            --text-light: #666;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            color: #112A46;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Timeline Container */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* The central line */
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #d0d0d0;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+
+        /* Timeline Item */
+        .container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        /* Left and Right alignment */
+        .left { left: 0; }
+        .right { left: 50%; }
+
+        /* The circles on the timeline */
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid #FF9F55;
+            top: 25px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .right::after {
+            left: -14px;
+        }
+
+        /* Specific node colors */
+        .phase-1::after { border-color: var(--heritage-color); }
+        .phase-2::after { border-color: var(--htx-color); }
+        .phase-3::after { border-color: var(--travel-color); }
+        .phase-4::after { border-color: var(--stc-color); }
+        .phase-5::after { border-color: var(--holding-color); }
+
+        /* The Content Card */
+        .content {
+            padding: 25px;
+            background-color: white;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 5px solid;
+        }
+
+        .content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .phase-1 .content { border-top-color: var(--heritage-color); }
+        .phase-2 .content { border-top-color: var(--htx-color); }
+        .phase-3 .content { border-top-color: var(--travel-color); }
+        .phase-4 .content { border-top-color: var(--stc-color); }
+        .phase-5 .content { border-top-color: var(--holding-color); }
+
+        /* Content Typography */
+        h2 {
+            margin-top: 0;
+            font-size: 1.4em;
+            color: #112A46;
+        }
+        
+        .timeline-date {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .philosophy {
+            font-style: italic;
+            color: #777;
+            margin-bottom: 15px;
+            border-left: 3px solid #ddd;
+            padding-left: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .pic {
+            margin-top: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .timeline::after { left: 31px; }
+            .container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .container::before {
+                left: 60px;
+                border: medium solid white;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+            .left::after, .right::after { left: 21px; }
+            .right { left: 0%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Bản Đồ Thực Thi Chiến Lược (Execution Roadmap)</h1>
+        <p>Hệ sinh thái Trị An Holding - Lộ trình Chuẩn hóa, Khai thác Dòng tiền & Gọi vốn (2026 - 2027)</p>
+    </div>
+
+    <div class="timeline">
+
+        <div class="container left phase-1">
+            <div class="content">
+                <span class="timeline-date">Tháng 4/2026 – Tháng 6/2026</span>
+                <h2>GĐ 1: Kích hoạt "Con Bò Sữa"</h2>
+                <div class="philosophy">"Phải có tiền tươi thóc thật ngay lập tức để nuôi bộ máy."</div>
+                <p><strong>Mục tiêu: TRỊ AN HERITAGE</strong></p>
+                <ul>
+                    <li>Đóng gói bao bì cao cấp cho Rượu Sâm Cau, Cá đặc sản, Bưởi.</li>
+                    <li>Phủ kênh phân phối: Chuỗi nhà hàng B2B, siêu thị & kênh Online (DTC).</li>
+                    <li>Thiết lập chính sách giá bán lẻ và chiết khấu đại lý.</li>
+                </ul>
+                <div class="pic">Phụ trách: Giám đốc Thương mại (CCO) & CFO</div>
+            </div>
+        </div>
+
+        <div class="container right phase-2">
+            <div class="content">
+                <span class="timeline-date">Tháng 7/2026 – Tháng 9/2026</span>
+                <h2>GĐ 2: Chuẩn hóa Vùng Nguyên Liệu</h2>
+                <div class="philosophy">"Sản lượng và chất lượng phải ổn định để phục vụ tuyến đầu."</div>
+                <p><strong>Mục tiêu: LIÊN MINH HTX</strong></p>
+                <ul>
+                    <li>Ký HĐ Chuyển giá nội bộ (Transfer Pricing) giữa HTX và Heritage.</li>
+                    <li>Ban hành Bộ quy trình SOPs nuôi trồng chuẩn (VietGAP/Organic).</li>
+                    <li>Kiểm kê và định giá tài sản đất đai, máy móc để ghi nhận vốn.</li>
+                </ul>
+                <div class="pic">Phụ trách: Giám đốc Vận hành (COO) & Chủ tịch HTX</div>
+            </div>
+        </div>
+
+        <div class="container left phase-3">
+            <div class="content">
+                <span class="timeline-date">Tháng 10/2026 – Tháng 12/2026</span>
+                <h2>GĐ 3: Tích hợp Trải nghiệm Dịch vụ</h2>
+                <div class="philosophy">"Biến khách du lịch thành tệp khách hàng trung thành mua hàng hóa."</div>
+                <p><strong>Mục tiêu: TRỊ AN GREEN TRAVEL</strong></p>
+                <ul>
+                    <li>Ra mắt Tour "Farm-to-Table" & Glamping tích hợp ẩm thực Heritage.</li>
+                    <li>Triển khai hệ thống CRM thu thập dữ liệu khách hàng để remarketing.</li>
+                    <li>Đẩy mạnh truyền thông định vị "Du lịch Di sản Xanh" đón mùa cao điểm.</li>
+                </ul>
+                <div class="pic">Phụ trách: Giám đốc Dịch vụ Du lịch & CMO</div>
+            </div>
+        </div>
+
+        <div class="container right phase-4">
+            <div class="content">
+                <span class="timeline-date">Tháng 1/2027 – Tháng 3/2027</span>
+                <h2>GĐ 4: Năng lượng mới & Công nghệ</h2>
+                <div class="philosophy">"Tối ưu chi phí vận hành và hướng tới tiêu chuẩn Net-Zero."</div>
+                <p><strong>Mục tiêu: STC</strong></p>
+                <ul>
+                    <li>Lắp đặt Điện mặt trời mái nhà cho khu sản xuất HTX và khu du lịch.</li>
+                    <li>Ứng dụng IoT & AI kiểm soát chất lượng nước/đất nông nghiệp.</li>
+                    <li>Hoàn thiện hệ thống quản trị tập trung ERP cho cả 3 khối.</li>
+                </ul>
+                <div class="pic">Phụ trách: Giám đốc Công nghệ (CTO) & Trưởng ban Năng lượng</div>
+            </div>
+        </div>
+
+        <div class="container left phase-5">
+            <div class="content">
+                <span class="timeline-date">Tháng 4/2027 – Tháng 6/2027</span>
+                <h2>GĐ 5: Cấu trúc Tập đoàn & Gọi Vốn</h2>
+                <div class="philosophy">"Bán tương lai được bảo chứng bằng dòng tiền thực tế với giá cao nhất."</div>
+                <p><strong>Mục tiêu: TRỊ AN HOLDING</strong></p>
+                <ul>
+                    <li>Hoàn thiện pháp lý Mẹ - Con và chốt sổ Bảng Cap Table cho Founders.</li>
+                    <li>Phát hành Báo cáo tài chính hợp nhất và Cập nhật Định giá.</li>
+                    <li>Tổ chức Roadshow, tiếp xúc Quỹ đầu tư Xanh để gọi vốn Vòng Seed/Series A.</li>
+                </ul>
+                <div class="pic">Phụ trách: Tổng Giám đốc (CEO), CFO & Cố vấn Chiến lược</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

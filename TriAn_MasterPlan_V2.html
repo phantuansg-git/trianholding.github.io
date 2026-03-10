@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trị An Holding - Master Execution Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#f8fafc',
+                primaryTextColor: '#0f172a',
+                primaryBorderColor: '#cbd5e1',
+                lineColor: '#94a3b8',
+                secondaryColor: '#e0f2fe',
+                tertiaryColor: '#f1f5f9'
+            },
+            securityLevel: 'loose',
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' }
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; }
+        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); border-radius: 1rem; }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
+        .text-gradient { background: linear-gradient(90deg, #2563eb, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Fix for Mermaid sizing */
+        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; }
+        .mermaid svg { min-width: 1200px; height: auto; max-height: 800px; } /* Ensures chart stays large and readable */
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <nav class="bg-slate-900 text-white shadow-xl sticky top-0 z-50 border-b-4 border-yellow-500">
+        <div class="max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition cursor-pointer">
+                    <i class="fa-solid fa-building-columns text-2xl text-yellow-400"></i>
+                    <span class="text-xl font-extrabold tracking-tight hidden sm:block">TRỊ AN HOLDING</span>
+                </a>
+                
+                <div class="hidden md:flex space-x-1">
+                    <a href="index.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition"><i class="fa-solid fa-house mr-1"></i> Tổng Quan</a>
+                    <a href="TriAn_MasterPlan_V2.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Heritage (Thương Mại)</a>
+                    <a href="TriAn_HTX.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">HTX (Sản Xuất)</a>
+                    <a href="TriAn_DaoCEO.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Đảo CEO (Hạ Tầng)</a>
+                    <a href="TriAn_STC.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">STC (Công Nghệ)</a>
+                    <a href="TriAn_GreenTravel.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Travel (Dịch Vụ)</a>
+                    <a href="TriAn_Community.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Community (Cộng Đồng)</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <span class="bg-yellow-900/50 text-yellow-200 text-xs font-semibold px-3 py-1 rounded-full border border-yellow-500 hidden lg:block">System Interconnected</span>
+                </div>
+            </div>
+            
+            <div class="md:hidden flex space-x-2 mt-3 overflow-x-auto pb-2">
+                <a href="index.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Tổng Quan</a>
+                <a href="TriAn_MasterPlan_V2.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Heritage</a>
+                <a href="TriAn_HTX.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">HTX</a>
+                <a href="TriAn_DaoCEO.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Đảo CEO</a>
+                <a href="TriAn_STC.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">STC</a>
+                <a href="TriAn_GreenTravel.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Travel</a>
+                <a href="TriAn_Community.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Community</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-[95%] mx-auto mt-10 space-y-12">
+
+        <div class="text-center space-y-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Bản Đồ Thực Thi <span class="text-gradient">Trị An Heritage</span></h1>
+            <p class="text-lg text-slate-600 max-w-4xl mx-auto leading-relaxed">Chiến dịch đột phá 90 ngày: Hoàn thiện nhận diện, Chuẩn hóa chuỗi cung ứng lạnh, Xây dựng cộng đồng bán hàng liên kết (Affiliate) và Phủ sóng hệ thống phân phối B2B.</p>
+        </div>
+
+        <section class="glass-card p-6 md:p-8">
+            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-blue-100 text-blue-700 rounded-lg"><i class="fa-solid fa-sitemap text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">1. Kiến trúc Hệ sinh thái & Vai trò Trị An Heritage</h2>
+            </div>
+            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
+                <div class="mermaid">
+                    mindmap
+                      root((TRỊ AN HOLDING))
+                        KHỐI HẠ TẦNG & SX (Gốc Rễ)
+                          Liên Minh HTX
+                            Vùng Nuôi Trồng VietGAP/Organic
+                            Xưởng Chế Biến & Đóng Gói
+                          STC Năng lượng
+                          Hạ tầng Đảo CEO
+                        KHỐI THƯƠNG MẠI (Dòng Tiền)
+                          TRỊ AN HERITAGE
+                            Sản Phẩm Thủy Sản
+                              Cá Lăng, Cá Lìm Kìm, Cá Cơm
+                            Sản Phẩm Gia Cầm
+                              Gà Trống Thiến, Gà Đảo
+                            Sản Phẩm Thức Uống
+                              Rượu Sâm Cau, Rượu Mật Nhân
+                            Nông Sản Bản Địa
+                              Bưởi Định Quán
+                        KHỐI DỊCH VỤ (Linh Hồn)
+                          Trị An Green Travel
+                            Farm-to-Table Experience
+                            Trải nghiệm Văn hóa Bản địa
+                            Phễu thu thập Dữ liệu (CRM)
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-6 md:p-8">
+            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-emerald-100 text-emerald-700 rounded-lg"><i class="fa-solid fa-project-diagram text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">2. Lưu Đồ Trình Tự Thực Thi 90 Ngày (Tháng 3 - Tháng 5/2026)</h2>
+            </div>
+            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
+                <div class="mermaid">
+                    graph LR
+                        classDef month fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#fff,font-weight:bold,font-size:16px,padding:10px;
+                        classDef action fill:#ffffff,stroke:#3b82f6,stroke-width:2px,color:#1e293b,font-size:14px;
+                        classDef milestone fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#166534,font-weight:bold;
+
+                        M1[THÁNG 3<br/>Hoàn thiện Hạ tầng & Go-Live]:::month
+                        M2[THÁNG 4<br/>Kích hoạt Cộng đồng Affiliate]:::month
+                        M3[THÁNG 5<br/>Bùng nổ B2B & Chuẩn hóa Kênh]:::month
+
+                        M1 --> M2 --> M3
+
+                        %% Tháng 3 Actions
+                        A1(1. Chốt thiết kế Bao bì & In ấn)
+                        A2(2. Setup Chuỗi cung ứng lạnh - Cold Chain)
+                        A3(3. Lên sóng Website E-commerce)
+                        A4(4. Cài đặt ERP KiotViet & Zalo OA CRM)
+                        A5{Milestone 1:<br/>Sản phẩm sẵn sàng<br/>lên kệ thương mại}:::milestone
+
+                        M1 --> A1 & A2 & A3 & A4
+                        A1 & A2 & A3 & A4 --> A5
+
+                        %% Tháng 4 Actions
+                        B1(1. Tung chương trình Sampling KOCs)
+                        B2(2. Mở cổng đăng ký Affiliate/CTV)
+                        B3(3. Thiết lập chính sách Hoa hồng 10-25%)
+                        B4(4. Tung Combo Bán chéo Bữa Ăn Di Sản)
+                        B5{Milestone 2:<br/>Đạt 100+ CTV<br/>có phát sinh đơn}:::milestone
+
+                        M2 --> B1 & B2 & B3 & B4
+                        A5 -. Tiền đề .-> B1
+                        B1 & B2 & B3 & B4 --> B5
+
+                        %% Tháng 5 Actions
+                        C1(1. Đội Sales chào hàng 50+ Horeca)
+                        C2(2. Chạy Ads Performance Tiktok/FB)
+                        C3(3. Triển khai Retention tự động qua ZNS)
+                        C4(4. Phân cấp Đại lý Cấp 1, Cấp 2, NPP)
+                        C5{Milestone 3:<br/>Dòng tiền dương<br/>Điểm hòa vốn}:::milestone
+
+                        M3 --> C1 & C2 & C3 & C4
+                        B5 -. Phễu mở rộng .-> C1
+                        C1 & C2 & C3 & C4 --> C5
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">3. Kế Hoạch Triển Khai Chi Tiết (4 Trụ Cột)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="glass-card p-6 border-t-4 border-blue-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-box-open text-2xl text-blue-500"></i>
+                        <h3 class="text-xl font-bold">I. Hệ Thống Sản Xuất & Chuỗi Lạnh</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Bao bì (Tháng 3):</strong> Hoàn thiện thiết kế tem nhãn chống nước, túi màng co ép chân không cho Cá Lăng, Gà Đảo. Hộp cứng cao cấp cho Rượu Sâm Cau.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Đóng gói tiêu chuẩn:</strong> Xây dựng SOP đóng thùng xốp + đá gel giữ nhiệt âm 18 độ C đảm bảo tươi ngon trong 24h-48h.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Đối tác Vận chuyển (Logistics):</strong> Ký HĐ nguyên tắc với đơn vị vận chuyển lạnh chuyên dụng (AhaMove siêu tốc, Lalamove, ABA Cooltrans cho đơn sỉ). Không dùng ship thường.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-laptop-code text-2xl text-indigo-500"></i>
+                        <h3 class="text-xl font-bold">II. Nền Tảng Thương Hiệu & Công Nghệ</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Website/E-commerce:</strong> Xây dựng trang đích (Landing Page) kể câu chuyện "Di sản Trị An". Tích hợp giỏ hàng và thanh toán VNPay/Momo.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Hệ thống ERP:</strong> Sử dụng phần mềm quản lý kho và đơn hàng tập trung. Theo dõi realtime tồn kho Cá, Gà tại xưởng Đồng Nai và kho trung chuyển HCM.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Zalo OA & CRM:</strong> Thiết lập hệ thống chăm sóc khách hàng tự động. Gửi Zalo ZNS xác nhận đơn hàng, hướng dẫn rã đông & chế biến, và xin đánh giá sau 3 ngày nhận hàng.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 border-t-4 border-emerald-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-users-viewfinder text-2xl text-emerald-500"></i>
+                        <h3 class="text-xl font-bold">III. Cộng Đồng & Mạng Lưới Affiliate</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Cấu trúc Đại lý 3 Tầng:</strong> CTV (Không vốn, CK 10-15%) -> Đại lý Sỉ (Nhập 15tr, CK 20-25%) -> Tổng Đại lý/NPP (Nhập >100tr, CK 30-35%).</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Gói Content Bán hàng (Sales Kit):</strong> Cung cấp kho hình ảnh chuẩn, video chế biến, và các bài viết mẫu kể chuyện về sản phẩm sạch để CTV chỉ việc copy-paste.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Hệ thống tính hoa hồng:</strong> Tích hợp cổng Affiliate vào Web, tự động tạo Link/Mã giới thiệu riêng cho từng đối tác. Trả hoa hồng minh bạch qua ví điện tử vào ngày 5 hàng tháng.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 border-t-4 border-amber-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-handshake text-2xl text-amber-500"></i>
+                        <h3 class="text-xl font-bold">IV. B2B & Kênh Phân Phối Chiến Lược</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Tấn công Horeca (Nhà hàng/Khách sạn):</strong> Xây dựng "Menu Trị An" chào thầu cho các hệ thống nhà hàng đặc sản, quán lẩu cao cấp tại HCM và Đồng Nai. Đảm bảo nguồn cung và hóa đơn VAT đỏ.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Combo Bán chéo (Cross-Selling):</strong> Đẩy mạnh Gói Bữa ăn (Ví dụ: Cá Lăng + Rượu Sâm Cau + Bưởi tráng miệng) để tăng Giá trị trung bình đơn (AOV) lên mức >1.500.000đ.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Cộng đồng Trị An Green Travel:</strong> Biến khách đi tour thành đại lý vi mô. Mọi khách đến trải nghiệm đều được nếm thử và cấp mã ưu đãi để mua hàng trực tuyến sau khi về nhà.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="text-center py-8 text-slate-500 text-sm mt-10 border-t border-slate-200">
+        <p class="font-bold">© 2026 TRỊ AN HOLDING ECOSYSTEM. BẢN QUYỀN THUỘC VỀ ĐỘI NGŨ SÁNG LẬP.</p>
+        <p class="mt-1">Designed by Executive Strategy Consulting Team</p>
+    </footer>
+
+</body>
+</html>

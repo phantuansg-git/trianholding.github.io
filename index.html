@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trị An Holding - Master Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#f8fafc',
+                primaryTextColor: '#0f172a',
+                primaryBorderColor: '#cbd5e1',
+                lineColor: '#94a3b8',
+                secondaryColor: '#f1f5f9',
+                tertiaryColor: '#e2e8f0'
+            },
+            securityLevel: 'loose',
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' }
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #0f172a; }
+        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border-radius: 1rem; transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
+        .text-gradient { background: linear-gradient(90deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; border: 1px solid #e2e8f0;}
+        .mermaid svg { min-width: 900px; height: auto; max-height: 600px; margin: 0 auto; display: block; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <nav class="bg-slate-900 text-white shadow-xl sticky top-0 z-50 border-b-4 border-yellow-500">
+        <div class="max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition cursor-pointer">
+                    <i class="fa-solid fa-building-columns text-2xl text-yellow-400"></i>
+                    <span class="text-xl font-extrabold tracking-tight hidden sm:block">TRỊ AN HOLDING</span>
+                </a>
+                
+                <div class="hidden md:flex space-x-1">
+                    <a href="index.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition"><i class="fa-solid fa-house mr-1"></i> Tổng Quan</a>
+                    <a href="TriAn_MasterPlan_V2.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Heritage (Thương Mại)</a>
+                    <a href="TriAn_HTX.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">HTX (Sản Xuất)</a>
+                    <a href="TriAn_DaoCEO.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Đảo CEO (Hạ Tầng)</a>
+                    <a href="TriAn_STC.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">STC (Công Nghệ)</a>
+                    <a href="TriAn_GreenTravel.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Travel (Dịch Vụ)</a>
+                    <a href="TriAn_Community.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Community (Cộng Đồng)</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <span class="bg-yellow-900/50 text-yellow-200 text-xs font-semibold px-3 py-1 rounded-full border border-yellow-500 hidden lg:block">System Interconnected</span>
+                </div>
+            </div>
+            
+            <div class="md:hidden flex space-x-2 mt-3 overflow-x-auto pb-2">
+                <a href="index.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Tổng Quan</a>
+                <a href="TriAn_MasterPlan_V2.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Heritage</a>
+                <a href="TriAn_HTX.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">HTX</a>
+                <a href="TriAn_DaoCEO.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Đảo CEO</a>
+                <a href="TriAn_STC.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">STC</a>
+                <a href="TriAn_GreenTravel.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Travel</a>
+                <a href="TriAn_Community.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Community</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-[95%] mx-auto mt-10 space-y-12">
+
+        <div class="text-center space-y-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Hệ Sinh Thái <span class="text-gradient">Di Sản Xanh & Công Nghệ</span></h1>
+            <p class="text-lg text-slate-600 max-w-4xl mx-auto leading-relaxed">Điều hướng toàn bộ chiến lược thực thi của Trị An Holding năm 2026. Tích hợp chuỗi giá trị từ Năng lượng, Nông nghiệp, Thương mại đến Du lịch sinh thái và Cộng đồng.</p>
+        </div>
+
+        <section class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-slate-800 text-yellow-400 rounded-lg"><i class="fa-solid fa-sitemap text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">1. Sa Bàn Hệ Sinh Thái Trị An Holding</h2>
+            </div>
+            <div class="mermaid-wrapper">
+                <div class="mermaid">
+                    mindmap
+                      root(("TRỊ AN HOLDING<br/>(Hệ Sinh Thái)"))
+                        ["KHỐI HẠ TẦNG & SẢN XUẤT<br/>(Bảo chứng Tài sản)"]
+                          ("Công ty Viễn Thông Miền Nam STC")
+                          ("Liên Minh HTX")
+                          ("Hạ Tầng Đảo CEO")
+                        ["KHỐI THƯƠNG MẠI & DÒNG TIỀN<br/>(Cash Cow)"]
+                          ("Trị An Heritage")
+                          ("Trị An Community Hub")
+                        ["KHỐI DỊCH VỤ & TRẢI NGHIỆM<br/>(The Soul)"]
+                          ("Trị An Green Travel")
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">2. Trung Tâm Điều Hành Các Khối Chiến Lược</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <a href="TriAn_MasterPlan_V2.html" class="glass-card block p-6 border-t-4 border-blue-500 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-blue-100 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors"><i class="fa-solid fa-box-open text-2xl"></i></div>
+                        <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded">Khối Thương Mại</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Trị An Heritage</h3>
+                    <p class="text-sm text-slate-600 mb-4 h-16">Chiến dịch 90 ngày: Hoàn thiện bao bì cá lăng, rượu sâm cau, phủ sóng đại lý và phân phối B2B Horeca.</p>
+                    <div class="text-blue-600 font-semibold text-sm flex items-center">Truy cập Dashboard <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i></div>
+                </a>
+
+                <a href="TriAn_HTX.html" class="glass-card block p-6 border-t-4 border-purple-500 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-purple-100 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors"><i class="fa-solid fa-seedling text-2xl"></i></div>
+                        <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded">Khối Sản Xuất</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Liên Minh HTX</h3>
+                    <p class="text-sm text-slate-600 mb-4 h-16">Quy hoạch vùng nguyên liệu, ký hợp đồng bao tiêu nông hộ, truy xuất nguồn gốc và vận hành kho lạnh.</p>
+                    <div class="text-purple-600 font-semibold text-sm flex items-center">Truy cập Dashboard <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i></div>
+                </a>
+
+                <a href="TriAn_GreenTravel.html" class="glass-card block p-6 border-t-4 border-emerald-500 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-emerald-100 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors"><i class="fa-solid fa-leaf text-2xl"></i></div>
+                        <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded">Khối Dịch Vụ</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Trị An Green Travel</h3>
+                    <p class="text-sm text-slate-600 mb-4 h-16">Biểu tượng Di sản Xanh. Bán Tour Farm-to-table, liên kết OTA, lữ hành và kéo traffic về cho hệ sinh thái.</p>
+                    <div class="text-emerald-600 font-semibold text-sm flex items-center">Truy cập Dashboard <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i></div>
+                </a>
+
+                <a href="TriAn_DaoCEO.html" class="glass-card block p-6 border-t-4 border-rose-500 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-rose-100 text-rose-600 rounded-lg group-hover:bg-rose-600 group-hover:text-white transition-colors"><i class="fa-solid fa-map-location-dot text-2xl"></i></div>
+                        <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded">Khối Hạ Tầng/BĐS</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Hạ Tầng Đảo CEO</h3>
+                    <p class="text-sm text-slate-600 mb-4 h-16">Bất động sản mỏ neo. Showroom sinh thái, Glamping, Hầm rượu và quyền lợi Membership cho giới tinh hoa.</p>
+                    <div class="text-rose-600 font-semibold text-sm flex items-center">Truy cập Dashboard <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i></div>
+                </a>
+
+                <a href="TriAn_STC.html" class="glass-card block p-6 border-t-4 border-cyan-500 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-cyan-100 text-cyan-600 rounded-lg group-hover:bg-cyan-600 group-hover:text-white transition-colors"><i class="fa-solid fa-solar-panel text-2xl"></i></div>
+                        <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded">Khối Năng Lượng/Tech</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">STC Miền Nam</h3>
+                    <p class="text-sm text-slate-600 mb-4 h-16">Xương sống công nghệ. Mô hình Agrivoltaics, Điện mặt trời, Data Center ERP và Tín chỉ Carbon Net-Zero.</p>
+                    <div class="text-cyan-600 font-semibold text-sm flex items-center">Truy cập Dashboard <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i></div>
+                </a>
+
+                <a href="TriAn_Community.html" class="glass-card block p-6 border-t-4 border-amber-500 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-amber-100 text-amber-600 rounded-lg group-hover:bg-amber-600 group-hover:text-white transition-colors"><i class="fa-solid fa-users-rays text-2xl"></i></div>
+                        <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded">Khối Cộng Đồng</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Community Hub</h3>
+                    <p class="text-sm text-slate-600 mb-4 h-16">Quy hoạch 3 siêu cộng đồng: Đặc Sản, Retreat Chữa lành và Founders Club. Hào nước bảo vệ của Tập đoàn.</p>
+                    <div class="text-amber-600 font-semibold text-sm flex items-center">Truy cập Dashboard <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i></div>
+                </a>
+
+            </div>
+        </section>
+
+        <section class="bg-slate-900 rounded-2xl p-8 text-white shadow-xl">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div class="lg:col-span-2 space-y-4">
+                    <h2 class="text-3xl font-bold text-yellow-400">Chiến Lược Gọi Vốn 300.000 USD</h2>
+                    <p class="text-slate-300 leading-relaxed">Trị An Holding áp dụng nguyên tắc "Minh bạch tuyệt đối". Mọi tài sản từ tiền mặt, công sức, đến trí tuệ đều được quy đổi thành giá trị vốn góp rõ ràng qua Cap Table. Lương là chi phí, lợi nhuận chia theo cổ phần có Vesting.</p>
+                    <ul class="space-y-2 mt-4 text-sm text-slate-200">
+                        <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Định giá SOTP (Cộng gộp các phần) cho 5 công ty con.</li>
+                        <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Trọng tâm Q2/2026: Vắt sữa Cash Cow (Heritage) để nuôi Hạ tầng.</li>
+                        <li><i class="fa-solid fa-check text-green-400 mr-2"></i> Khóa dòng tiền nội bộ qua Hợp đồng Chuyển giá Transfer Pricing.</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center">
+                    <div class="text-sm text-slate-400 mb-1">Định Giá Dự Kiến (Pre-money)</div>
+                    <div class="text-4xl font-extrabold text-white mb-4">~ 35 Tỷ VNĐ</div>
+                    <a href="TriAn_MasterPlan_V2.html" class="block w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-bold rounded-lg transition-colors">
+                        Xem Mô Hình Tài Chính
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="text-center py-8 text-slate-500 text-sm mt-10 border-t border-slate-200">
+        <p class="font-bold">© 2026 TRỊ AN HOLDING ECOSYSTEM. HỆ THỐNG QUẢN TRỊ NỘI BỘ.</p>
+        <p class="mt-1">Designed by Executive Strategy Consulting Team (McKinsey Standard)</p>
+    </footer>
+
+</body>
+</html>
