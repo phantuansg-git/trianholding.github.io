@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trị An Holding - Financial & Valuation Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#f0fdf4',
+                primaryTextColor: '#064e3b',
+                primaryBorderColor: '#86efac',
+                lineColor: '#22c55e',
+                secondaryColor: '#ecfdf5',
+                tertiaryColor: '#f0fdf4'
+            },
+            securityLevel: 'loose',
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' }
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #0f172a; }
+        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); border-radius: 1rem; }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #064e3b 100%); }
+        .text-gradient { background: linear-gradient(90deg, #22c55e, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; border: 1px solid #e2e8f0;}
+        .mermaid svg { min-width: 1000px; height: auto; max-height: 700px; margin: 0 auto; display: block; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #86efac; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #22c55e; }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <nav class="bg-slate-900 text-white shadow-xl sticky top-0 z-50 border-b-4 border-yellow-500">
+        <div class="max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition cursor-pointer">
+                    <i class="fa-solid fa-building-columns text-2xl text-yellow-400"></i>
+                    <span class="text-xl font-extrabold tracking-tight hidden sm:block">TRỊ AN HOLDING</span>
+                </a>
+                
+                <div class="hidden md:flex space-x-1">
+                    <a href="TriAn_Finance.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition"><i class="fa-solid fa-house mr-1"></i> Pre-Money </a>
+                    <a href="TriAn_MasterPlan_V2.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Heritage (Thương Mại)</a>
+                    <a href="TriAn_HTX.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">HTX (Sản Xuất)</a>
+                    <a href="TriAn_DaoCEO.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Đảo CEO (Hạ Tầng)</a>
+                    <a href="TriAn_STC.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">STC (Công Nghệ)</a>
+                    <a href="TriAn_GreenTravel.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Travel (Dịch Vụ)</a>
+                    <a href="TriAn_Community.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Community (Cộng Đồng)</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <span class="bg-yellow-900/50 text-yellow-200 text-xs font-semibold px-3 py-1 rounded-full border border-yellow-500 hidden lg:block">System Interconnected</span>
+                </div>
+            </div>
+            
+            <div class="md:hidden flex space-x-2 mt-3 overflow-x-auto pb-2">
+                <a href="TriAn_Finance.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Pre-Money</a>
+                <a href="TriAn_MasterPlan_V2.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Heritage</a>
+                <a href="TriAn_HTX.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">HTX</a>
+                <a href="TriAn_DaoCEO.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Đảo CEO</a>
+                <a href="TriAn_STC.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">STC</a>
+                <a href="TriAn_GreenTravel.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Travel</a>
+                <a href="TriAn_Community.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Community</a>
+            </div>
+        </div>
+    </nav>
+	
+    <div class="max-w-[95%] mx-auto mt-10 space-y-12">
+
+        <div class="text-center space-y-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Cấu Trúc Vốn & Định Giá <span class="text-gradient">Pre-Money 2026</span></h1>
+            <p class="text-lg text-slate-600 max-w-4xl mx-auto leading-relaxed">Chuẩn hóa cấu trúc sở hữu (Cap Table), lượng hóa mọi đóng góp thành vốn, và thiết lập kỷ luật tài chính "Lương là Chi phí" để sẵn sàng đón dòng vốn Seed Round 300.000 USD.</p>
+        </div>
+
+        <section class="glass-card p-6 md:p-8 border-t-4 border-emerald-500">
+            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-emerald-100 text-emerald-800 rounded-lg"><i class="fa-solid fa-chart-pie text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">1. Định Giá Cộng Gộp Hệ Sinh Thái (SOTP Valuation)</h2>
+            </div>
+            <div class="mermaid-wrapper">
+                <div class="mermaid">
+                    mindmap
+                      root(("ĐỊNH GIÁ PRE-MONEY<br/>~ 35 TỶ VNĐ"))
+                        ["1. Khối Hạ Tầng & Sản Xuất<br/>(10 - 15 Tỷ VNĐ)"]
+                          (Phương pháp: Tài sản ròng - Asset Based)
+                          (Đất đai, Nhà xưởng Liên minh HTX)
+                          (Hệ thống Năng lượng mặt trời STC)
+                          (Cơ sở hạ tầng Đảo CEO)
+                        ["2. Khối Thương Mại<br/>(5 - 8 Tỷ VNĐ)"]
+                          (Phương pháp: Bội số Doanh thu - Revenue Multiple)
+                          (Dòng tiền & Lợi nhuận Trị An Heritage)
+                          (Kênh phân phối B2B & Đại lý)
+                        ["3. Khối Dịch Vụ<br/>(3 - 5 Tỷ VNĐ)"]
+                          (Phương pháp: Chiết khấu Dòng tiền - DCF)
+                          (Hệ thống Booking Green Travel)
+                          (Data Khách hàng CRM & Traffic)
+                        ["4. Giá Trị Vô Hình Holding<br/>(5 - 7 Tỷ VNĐ)"]
+                          (Phương pháp: Berkus Method - Rủi ro)
+                          (Sở hữu Trí tuệ - IP Công thức, Quy trình)
+                          (Đội ngũ Founders & Quan hệ Chính quyền)
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-6 md:p-8 border-t-4 border-teal-500">
+            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-teal-100 text-teal-800 rounded-lg"><i class="fa-solid fa-lock text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">2. Cơ Chế Ràng Buộc Thoái Vốn (Vesting 4 Năm)</h2>
+            </div>
+            <div class="mermaid-wrapper">
+                <div class="mermaid">
+                    graph LR
+                        classDef phase fill:#064e3b,stroke:#047857,stroke-width:2px,color:#fff,font-weight:bold,font-size:16px,padding:10px;
+                        classDef action fill:#ffffff,stroke:#10b981,stroke-width:2px,color:#0f172a,font-size:14px;
+                        classDef danger fill:#fef2f2,stroke:#ef4444,stroke-width:2px,color:#991b1b,font-weight:bold;
+                        classDef success fill:#f0fdf4,stroke:#22c55e,stroke-width:2px,color:#166534,font-weight:bold;
+
+                        P1["T0: KÝ THỎA THUẬN CỔ ĐÔNG (SHA)"]:::phase
+                        
+                        A1("Tháng 1 đến Tháng 11<br/>(Giai đoạn Thử thách)"):::action
+                        A2{"Tháng 12:<br/>The Cliff (Vách đá)"}:::action
+                        
+                        D1["NGHỈ VIỆC SỚM<br/>Thu hồi 100% Cổ phần giá 0đ"]:::danger
+                        S1["ĐẠT CLIFF<br/>Nhận ngay 25% Cổ phần Vested"]:::success
+
+                        B1("Tháng 13 đến Tháng 48<br/>(Trao quyền dần dần)"):::action
+                        B2("Cổ phần được mở khóa<br/>tỷ lệ 1/48 mỗi tháng"):::action
+                        S2["THÁNG 48: FULLY VESTED<br/>Sở hữu 100% vĩnh viễn"]:::success
+
+                        P1 --> A1 --> A2
+                        A2 -- "Rời bỏ dự án (Bad Leaver)" --> D1
+                        A2 -- "Gắn bó cam kết" --> S1
+                        S1 --> B1 --> B2 --> S2
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">3. Kỷ Luật Vận Hành & Tài Chính Trị An</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="glass-card p-6 border-t-4 border-emerald-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-scale-balanced text-2xl text-emerald-500"></i>
+                        <h3 class="text-xl font-bold">I. Quy Đổi Cổ Phần (Fair Value)</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Định lượng mọi đóng góp:</strong> Tiền bạc, công sức, trí tuệ, ý tưởng, tài sản (đất đai, xe cộ), hay các mối quan hệ đối tác đều được coi là VỐN. Mọi thứ phải được định giá ra VNĐ tại thời điểm T0.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Vốn Trí tuệ (Intellectual Property):</strong> Công thức rượu, quy trình nuôi cá, bản quyền công nghệ được định giá 1 lần (Lump-sum) và quy đổi thành tỷ lệ sở hữu tương ứng. Yêu cầu bắt buộc phải chuyển giao sở hữu 100% cho Holding.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Công sức (Sweat Equity):</strong> Tính bằng "Lương thị trường x Thời gian không nhận lương". Có hệ số nhân rủi ro (1.2x - 1.5x) để thưởng cho sự mạo hiểm của Founder giai đoạn đầu.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 border-t-4 border-blue-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-file-invoice-dollar text-2xl text-blue-500"></i>
+                        <h3 class="text-xl font-bold">II. "Lương Là Chi Phí" (OpEx Rule)</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Tách bạch Sở hữu & Vận hành:</strong> Người tham gia vận hành dự án đều là nhân viên (kể cả người góp vốn 50% cổ phần). Làm Giám đốc phải có Hợp đồng lao động, KPIs, và Mức lương định giá theo thị trường.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Nợ lương linh hoạt:</strong> Trong giai đoạn Seed, nếu chưa có tiền mặt chi trả, Lương sẽ được ghi nhận là "Khoản nợ của công ty với Founder". Có thể nhận bằng tiền mặt khi công ty có lãi, hoặc quy đổi thành cổ phần thưởng vào cuối năm.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Tuyệt đối không lấy công làm lãi:</strong> Chi phí lương phải được trừ vào Doanh thu trước khi xác định Lợi nhuận Ròng.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 border-t-4 border-amber-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-chart-line text-2xl text-amber-500"></i>
+                        <h3 class="text-xl font-bold">III. Phân Chia Lợi Nhuận & Rủi Ro</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Nguyên tắc cốt lõi:</strong> Lợi nhuận Ròng (Net Profit) = Tổng Doanh thu - TẤT CẢ Chi phí (Bao gồm cả chi phí Lương Founder, Thuế, Khấu hao).</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Chia Cổ Tức:</strong> Lợi nhuận còn lại (sau khi trích lập Quỹ Dự phòng và Quỹ Tái đầu tư STC/HTX) sẽ được chia tỷ lệ thuận chính xác 100% theo tỷ lệ vốn góp cổ phần đã được chốt sổ.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Chia Sẻ Rủi Ro Lỗ:</strong> Cổ đông chịu trách nhiệm hữu hạn trong phạm vi vốn góp. Nếu công ty cần Cash call (Huy động vốn khẩn cấp để bù lỗ), cổ đông phải nộp thêm tiền theo đúng tỷ lệ. Nếu không nộp, sẽ bị pha loãng (Dilution) lập tức.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6 border-t-4 border-rose-500 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-handshake-angle text-2xl text-rose-500"></i>
+                        <h3 class="text-xl font-bold">IV. Văn Bản Hóa Từ Ngày Đầu (Legalize)</h3>
+                    </div>
+                    <ul class="space-y-3 text-slate-600 text-sm">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Shareholders' Agreement (SHA):</strong> Tất cả cam kết về quy đổi Công sức/Trí tuệ, cơ chế Vesting, quy định thoái vốn phải được ký kết bằng văn bản có hiệu lực pháp lý trước khi bất kỳ nhà đầu tư bên ngoài nào rót tiền.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Điều khoản Good/Bad Leaver:</strong> Xử lý rõ ràng việc Founder rời đi êm đẹp (Công ty mua lại giá thị trường) hay vi phạm kỷ luật/bỏ ngang (Công ty thu hồi cổ phần với giá 0đ hoặc mệnh giá gốc).</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Right of First Refusal (ROFR):</strong> Khi một cổ đông muốn bán cổ phần lấy tiền mặt, bắt buộc phải ưu tiên chào bán cho các cổ đông hiện hữu của Trị An Holding trước khi bán cho người ngoài.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="text-center py-8 text-slate-500 text-sm mt-10 border-t border-slate-200">
+        <p class="font-bold">© 2026 TRỊ AN HOLDING ECOSYSTEM - FINANCIAL & VALUATION BOARD.</p>
+        <p class="mt-1">Designed by Executive Strategy Consulting Team (McKinsey Standard)</p>
+    </footer>
+
+</body>
+</html>
