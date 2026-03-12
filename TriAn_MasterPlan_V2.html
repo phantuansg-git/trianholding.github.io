@@ -43,42 +43,84 @@
 </head>
 <body class="antialiased pb-20">
 
-    <nav class="bg-slate-900 text-white shadow-xl sticky top-0 z-50 border-b-4 border-emerald-500">
+    <nav class="bg-[#0f172a] shadow-2xl sticky top-0 z-50 border-b border-slate-700">
         <div class="max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <div class="flex justify-between items-center">
-                <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition cursor-pointer">
+                <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition cursor-pointer shrink-0">
                     <i class="fa-solid fa-building-columns text-2xl text-yellow-400"></i>
-                    <span class="text-xl font-extrabold tracking-tight hidden sm:block">TRỊ AN HOLDING</span>
+                    <span class="text-2xl font-black tracking-tight text-white hidden sm:block">TRỊ AN HOLDING</span>
                 </a>
                 
-                <div class="hidden md:flex space-x-1">
-                    <a href="index.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition"><i class="fa-solid fa-house mr-1"></i> Tổng Quan</a>
-                    <a href="TriAn_Finance.html" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-slate-700 transition">Tài Chính (Định Giá)</a>
-                    <a href="TriAn_MasterPlan_V2.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Heritage</a>
-                    <a href="TriAn_HTX.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">HTX</a>
-                    <a href="TriAn_DaoCEO.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Đảo CEO</a>
-                    <a href="TriAn_STC.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">STC</a>
-                    <a href="TriAn_GreenTravel.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Travel</a>
-                    <a href="TriAn_Community.html" class="px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition">Community</a>
+                <div class="hidden lg:flex space-x-1 items-center bg-slate-800/50 p-1 rounded-xl border border-slate-700/50">
+                    <a href="index.html" class="nav-link px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center"><i class="fa-solid fa-house mr-2"></i> Tổng Quan</a>
+                    <a href="TriAn_Finance.html" class="nav-link px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">Tài Chính (Định Giá)</a>
+                    <a href="TriAn_MasterPlan_V2.html" class="nav-link px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">Heritage</a>
+                    <a href="TriAn_HTX.html" class="nav-link px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">HTX</a>
+                    <a href="TriAn_DaoCEO.html" class="nav-link px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">Đảo CEO</a>
+                    <a href="TriAn_STC.html" class="nav-link px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">STC</a>
+                    <a href="TriAn_GreenTravel.html" class="nav-link px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">Travel</a>
+                    <a href="TriAn_Community.html" class="nav-link px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">Community</a>
                 </div>
 
-                <div class="flex items-center space-x-4">
-                    <span class="bg-emerald-900/50 text-emerald-200 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500 hidden lg:block">Seed Round: $300K</span>
+                <div class="hidden xl:flex items-center shrink-0">
+                    <span class="bg-emerald-900/20 border border-emerald-500 text-emerald-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                        Seed Round: $300K
+                    </span>
                 </div>
             </div>
             
-            <div class="md:hidden flex space-x-2 mt-3 overflow-x-auto pb-2">
-                <a href="index.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Tổng Quan</a>
-                <a href="TriAn_Finance.html" class="whitespace-nowrap px-3 py-1 bg-emerald-600 rounded-full text-xs text-white">Tài Chính</a>
-                <a href="TriAn_MasterPlan_V2.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Heritage</a>
-                <a href="TriAn_HTX.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">HTX</a>
-                <a href="TriAn_DaoCEO.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Đảo CEO</a>
-                <a href="TriAn_STC.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">STC</a>
-                <a href="TriAn_GreenTravel.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Travel</a>
-                <a href="TriAn_Community.html" class="whitespace-nowrap px-3 py-1 bg-slate-800 rounded-full text-xs text-slate-200">Community</a>
+            <div class="lg:hidden flex space-x-2 mt-4 overflow-x-auto pb-2 scrollbar-hide">
+                <a href="index.html" class="nav-link whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-700 transition-all">Tổng Quan</a>
+                <a href="TriAn_Finance.html" class="nav-link whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-700 transition-all">Tài Chính</a>
+                <a href="TriAn_MasterPlan_V2.html" class="nav-link whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-700 transition-all">Heritage</a>
+                <a href="TriAn_HTX.html" class="nav-link whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-700 transition-all">HTX</a>
+                <a href="TriAn_DaoCEO.html" class="nav-link whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-700 transition-all">Đảo CEO</a>
+                <a href="TriAn_STC.html" class="nav-link whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-700 transition-all">STC</a>
+                <a href="TriAn_GreenTravel.html" class="nav-link whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-700 transition-all">Travel</a>
+                <a href="TriAn_Community.html" class="nav-link whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-700 transition-all">Community</a>
             </div>
         </div>
     </nav>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Lấy tên file hiện tại trên thanh địa chỉ URL
+            let path = window.location.pathname;
+            let page = path.split("/").pop();
+            if (page === "") page = "index.html"; // Mặc định nếu là trang chủ
+
+            // Lấy tất cả các thẻ a có class 'nav-link'
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                let href = link.getAttribute('href');
+                
+                // Xóa trạng thái mặc định
+                link.classList.remove('bg-slate-700', 'text-white', 'text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
+                
+                if (href === page) {
+                    // Nếu là trang hiện tại: Đổi màu nền xám đậm, chữ trắng (Active)
+                    link.classList.add('bg-[#1e293b]', 'text-white', 'shadow-md');
+                    // Riêng mobile đổi viền
+                    if (window.innerWidth < 1024) {
+                        link.classList.remove('border-slate-700');
+                        link.classList.add('border-slate-400', 'bg-slate-700');
+                    }
+                } else {
+                    // Nếu không phải trang hiện tại: Chữ xám, hover sáng lên (Inactive)
+                    link.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
+                }
+            });
+        });
+    </script>
+    <style>
+        /* Ẩn thanh cuộn xấu xí trên mobile menu */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+    ```
+
+
 
     <div class="max-w-[95%] mx-auto mt-10 space-y-12">
 
