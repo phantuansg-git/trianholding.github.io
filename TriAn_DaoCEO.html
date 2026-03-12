@@ -17,26 +17,36 @@
                 primaryBorderColor: '#fda4af',
                 lineColor: '#e11d48',
                 secondaryColor: '#ffe4e6',
-                tertiaryColor: '#fff1f2'
+                tertiaryColor: '#fff1f2',
+                pie1: '#7f1d1d', pie2: '#be123c', pie3: '#e11d48', pie4: '#f43f5e'
             },
             securityLevel: 'loose',
-            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' }
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' },
+            pie: { useMaxWidth: true }
         });
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
-        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border-radius: 1rem; }
-        .gradient-bg { background: linear-gradient(135deg, #7f1d1d 0%, #be123c 100%); }
-        .text-gradient { background: linear-gradient(90deg, #e11d48, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .gradient-text { background: linear-gradient(90deg, #e11d48, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; }
-        .mermaid svg { min-width: 1100px; height: auto; max-height: 800px; }
-        
+        /* Cấu hình biểu đồ Mermaid */
+        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; border: 1px solid #e2e8f0; width: 100%; }
+        .chart-wide .mermaid svg { min-width: 900px; max-width: 100%; height: auto; margin: 0 auto; display: block; }
+        .chart-pie { display: flex; justify-content: center; align-items: center; padding: 0; }
+        .chart-pie .mermaid svg { width: 100%; max-width: 400px !important; height: auto; margin: 0 auto; display: block; }
+
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #fda4af; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #e11d48; }
+        
+        /* Ẩn scrollbar menu mobile */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="antialiased pb-20">
@@ -61,8 +71,8 @@
                 </div>
 
                 <div class="hidden xl:flex items-center shrink-0">
-                    <span class="bg-emerald-900/20 border border-emerald-500 text-emerald-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-                        Seed Round: $300K
+                    <span class="bg-rose-900/20 border border-rose-500 text-rose-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(244,63,94,0.15)]">
+                        Hạ Tầng Lõi (Anchor Asset)
                     </span>
                 </div>
             </div>
@@ -79,181 +89,283 @@
             </div>
         </div>
     </nav>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Lấy tên file hiện tại trên thanh địa chỉ URL
             let path = window.location.pathname;
             let page = path.split("/").pop();
-            if (page === "") page = "index.html"; // Mặc định nếu là trang chủ
-
-            // Lấy tất cả các thẻ a có class 'nav-link'
+            if (page === "") page = "index.html"; 
             const navLinks = document.querySelectorAll('.nav-link');
-
             navLinks.forEach(link => {
                 let href = link.getAttribute('href');
-                
-                // Xóa trạng thái mặc định
                 link.classList.remove('bg-slate-700', 'text-white', 'text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
-                
                 if (href === page) {
-                    // Nếu là trang hiện tại: Đổi màu nền xám đậm, chữ trắng (Active)
                     link.classList.add('bg-[#1e293b]', 'text-white', 'shadow-md');
-                    // Riêng mobile đổi viền
                     if (window.innerWidth < 1024) {
                         link.classList.remove('border-slate-700');
                         link.classList.add('border-slate-400', 'bg-slate-700');
                     }
                 } else {
-                    // Nếu không phải trang hiện tại: Chữ xám, hover sáng lên (Inactive)
                     link.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
                 }
             });
         });
     </script>
-    <style>
-        /* Ẩn thanh cuộn xấu xí trên mobile menu */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
-    ```
-
-
-
     <div class="max-w-[95%] mx-auto mt-10 space-y-12">
 
-        <div class="text-center space-y-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Quy Hoạch Tổ Hợp <span class="text-gradient">Showroom Sinh Thái</span></h1>
-            <p class="text-lg text-slate-600 max-w-4xl mx-auto leading-relaxed">Đảo CEO là trung tâm hội tụ tinh hoa: Nơi trình diễn công nghệ Net-Zero của STC, trung tâm huấn luyện của HTX, "phòng VIP" chốt sale B2B của Heritage và là lõi lưu trú cao cấp của Green Travel.</p>
+        <div class="relative bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
+            <div class="absolute inset-0 opacity-50 mix-blend-overlay" style="background-image: url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;"></div>
+            <div class="relative z-10 p-10 md:p-16 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-rose-500/20 text-rose-300 border border-rose-400/30 text-sm font-bold tracking-widest mb-4 uppercase">Định Giá Cốt Lõi Tập Đoàn</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">Siêu Quần Thể Đảo CEO</h1>
+                <p class="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed">Được định vị là "Tài sản mỏ neo" (Anchor Asset) của hệ sinh thái. Nơi trình diễn mô hình Net-Zero của STC, trung tâm bảo tồn dược liệu của HTX, không gian chốt Deal B2B của Heritage và trái tim nghỉ dưỡng của Green Travel.</p>
+            </div>
         </div>
 
-        <section class="glass-card p-6 md:p-8 border-t-4 border-rose-600">
-            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
-                <div class="p-3 bg-rose-100 text-rose-800 rounded-lg"><i class="fa-solid fa-cubes-stacked text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-slate-800">1. Quy Hoạch Phân Khu Chức Năng Đảo CEO</h2>
+        <section>
+            <div class="flex items-center space-x-3 mb-8 justify-center">
+                <i class="fa-solid fa-map-location-dot text-3xl text-slate-800"></i>
+                <h2 class="text-3xl font-extrabold text-slate-900 text-center">Quy Hoạch Phân Khu Chiến Lược</h2>
             </div>
-            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
-                <div class="mermaid">
-                    mindmap
-                      root((ĐẢO CEO))
-                        Phân Khu Trải Nghiệm (Cho Green Travel)
-                          Khu Glamping/Villas VIP
-                          Bến Thuyền & Cảnh Quan Lòng Hồ
-                          Khu Thiền & Retreat (Chữa Lành)
-                        Phân Khu Di Sản (Cho Heritage)
-                          Hầm Rượu Vang Sâm Cau / Mật Nhân
-                          Nhà Hàng Đặc Sản Farm-to-Table
-                          Khu VIP Tasting & Chốt Deal B2B
-                        Phân Khu Gốc Rễ (Cho HTX)
-                          Trung Tâm Đào Tạo Nghệ Nhân
-                          Khu Mô Hình Canh Tác Thu Nhỏ (Showcase)
-                        Phân Khu Hạ Tầng & Công Nghệ (Cho STC)
-                          Trạm Điện Mặt Trời Độc Lập (Off-grid)
-                          Hệ Thống Lọc Nước Sinh Thái
-                          Trung Tâm Điều Hành IoT (Smart Island)
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+                
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-rose-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1534008897995-27a23e859048?auto=format&fit=crop&w=800&q=80" alt="Khu lưu trú Glamping" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Lưu Trú Tinh Hoa (Retreat)</h3>
+                            <span class="bg-rose-100 text-rose-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Green Travel</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Hệ thống lều Glamping sinh thái và Bungalow cao cấp. Cung cấp không gian trải nghiệm chữa lành (Healing), thiền định và ngắm cảnh quan lòng hồ độc bản.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-amber-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80" alt="Trung tâm ẩm thực" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Trung Tâm Ẩm Thực Di Sản</h3>
+                            <span class="bg-amber-100 text-amber-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Heritage</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Khu nhà hàng Farm-to-Table và Hầm rượu VIP. Trở thành phòng "Chốt Deal" ngoại giao để tiếp đón các đối tác B2B, Horeca đến trải nghiệm chất lượng Tập đoàn.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-purple-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=800&q=80" alt="Vườn R&D Sinh Thái" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Vườn Thực Nghiệm Dược Liệu</h3>
+                            <span class="bg-purple-100 text-purple-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Liên Minh HTX</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Vùng đệm sinh thái được dùng làm nơi trồng khảo nghiệm Sâm Cau, dược liệu quý và là không gian đào tạo trực quan chuẩn VietGAP cho mạng lưới nông hộ.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl border-t-4 border-cyan-500 overflow-hidden">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80" alt="Hệ thống năng lượng" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow bg-cyan-50/30">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Hạ Tầng Net-Zero Offgrid</h3>
+                            <span class="bg-cyan-100 text-cyan-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">STC Tech</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Tự chủ 100% bằng hệ thống điện mặt trời độc lập, tích hợp IoT lọc nước và xử lý chất thải. Biến Đảo CEO thành Showroom Công nghệ Xanh chuẩn ESG Quốc tế.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="bg-gradient-to-br from-slate-900 to-rose-950 rounded-3xl p-10 md:p-16 border border-rose-800 shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 mix-blend-overlay opacity-30" style="background-image: url('https://images.unsplash.com/photo-1574096079513-d8259312b78a?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;"></div>
+            
+            <div class="relative z-10 text-center mb-12">
+                <span class="inline-block py-1 px-3 rounded-full bg-rose-500/20 text-rose-300 border border-rose-400/30 text-sm font-bold tracking-widest mb-4 uppercase">Khai Thác Dòng Tiền & Quy Mô</span>
+                <h2 class="text-4xl font-extrabold text-white tracking-tight">Chiến Lược Phát Triển Đảo CEO</h2>
+                <p class="text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed mt-4">Khai thác giá trị bất động sản sinh thái bằng các nghiệp vụ tài chính hiện đại. Không phân lô bán nền, Tập đoàn giữ 100% quyền sở hữu và thương mại hóa thông qua "Nền kinh tế đặc quyền".</p>
+            </div>
+
+            <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" alt="Corporate meeting" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">1. Giải Pháp Vốn Crowdfunding</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Thay vì vay nợ ngân hàng chịu lãi suất cao, Holding triển khai phát hành thẻ "Founders Club Membership" giới hạn. Thu tiền mặt trước (Advance Cash) từ các nhà đầu tư cá nhân đổi lấy quyền lợi nghỉ dưỡng miễn phí và đặc quyền mua sỉ sản phẩm Heritage hằng năm.</p>
+                    </div>
+                    <div class="text-xs font-medium text-rose-300 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-vault mr-2"></i> Mục tiêu: Thu Vốn Lưu Động trước khi Xây dựng</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=800&q=80" alt="Eco Lodge" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">2. Mô Hình Bất Động Sản "Lean"</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Áp dụng tư duy "Lean Construction" (Xây dựng tinh gọn). Tập trung tối đa vào làm hạ tầng cảnh quan lõi, đường dạo bộ và bến thuyền. Sử dụng cụm Lều Glamping thay vì xây Villa bê tông kiên cố nhằm rút ngắn thời gian thu hồi vốn (Payback period) xuống còn 12 tháng.</p>
+                    </div>
+                    <div class="text-xs font-medium text-rose-300 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-hammer mr-2"></i> Trọng tâm: Tối thiểu hóa CapEx - Tối đa hóa Dòng tiền</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1564507004663-b6dfb3c824d5?auto=format&fit=crop&w=800&q=80" alt="Luxury Marina" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">3. Nâng Tầm Tiện Ích Đẳng Cấp</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Xin quy hoạch thiết lập Bến thủy nội địa (Marina) chuyên biệt cho du thuyền và ca nô cao tốc từ TP.HCM. Bổ sung Bãi đỗ trực thăng (Helipad) dự phòng và Trung tâm Y học tái tạo (Healing Center) hướng tới tệp khách hàng UHNWI (Siêu giàu).</p>
+                    </div>
+                    <div class="text-xs font-medium text-rose-300 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-anchor mr-2"></i> Định vị: Biểu tượng sống siêu sang trên mặt hồ</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group border-l-4 border-yellow-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" alt="Network Cross-sell" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">4. Trung Tâm Bán Chéo (Cross-Selling Hub)</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Đảo CEO không hoạt động độc lập mà là điểm giao thoa của toàn Tập đoàn. Khách lưu trú sẽ ăn sản phẩm của HTX, mua quà của Heritage, và các Doanh nghiệp tham quan sẽ bị thuyết phục ký Hợp đồng Lắp đặt Điện mặt trời với công ty con STC ngay tại chỗ.</p>
+                    </div>
+                    <div class="text-xs font-medium text-yellow-400 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-people-arrows mr-2"></i> Giá trị cốt lõi: Nút thắt tạo ra Hệ sinh thái bền vững</div>
                 </div>
             </div>
         </section>
 
-        <section class="glass-card p-6 md:p-8 border-t-4 border-red-600">
+        <section class="glass-card p-6 md:p-8 border-t-4 border-rose-600 chart-wide">
+            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-rose-100 text-rose-800 rounded-lg"><i class="fa-solid fa-sitemap text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">Kiến Trúc Tích Hợp Hệ Sinh Thái (Đảo CEO)</h2>
+            </div>
+            <div class="mermaid-wrapper">
+                <div class="mermaid">
+                    mindmap
+                      root((TRỤC LÕI<br/>ĐẢO CEO))
+                        ["Giá Trị Dịch Vụ (Green Travel)"]
+                          (Lưu trú Sinh thái - Glamping)
+                          (Thể thao Nước & Bến thuyền)
+                          (Trạm Dừng chân & Chữa lành)
+                        ["Giá Trị Thương Mại (Heritage)"]
+                          (Hầm Rượu Vang Đặc Sản)
+                          (Nhà Hàng Ẩm thực Bản địa)
+                          (Showroom Quà tặng Doanh nghiệp)
+                        ["Giá Trị R&D (Liên minh HTX)"]
+                          (Trung tâm Huấn luyện Kỹ thuật)
+                          (Khu Bảo tồn Gen Dược liệu)
+                        ["Giá Trị Hạ Tầng (STC)"]
+                          (Trạm Phát điện Solar Khép kín)
+                          (Hệ thống Lọc Nước Tuần Hoàn)
+                          (Trung tâm Điều hành Smart Island)
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-6 md:p-8 border-t-4 border-red-600 chart-wide">
             <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
                 <div class="p-3 bg-red-100 text-red-800 rounded-lg"><i class="fa-solid fa-timeline text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-slate-800">2. Lộ Trình Phát Triển & Thương Mại Hóa (2026 - 2027)</h2>
+                <h2 class="text-2xl font-bold text-slate-800">Lộ Trình Quy Hoạch & Khai Thác Thương Mại (2026 - 2027)</h2>
             </div>
-            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
+            <div class="mermaid-wrapper">
                 <div class="mermaid">
                     graph LR
-                        classDef phase fill:#7f1d1d,stroke:#9f1239,stroke-width:2px,color:#fff,font-weight:bold,font-size:16px,padding:10px;
-                        classDef action fill:#ffffff,stroke:#e11d48,stroke-width:2px,color:#1e293b,font-size:14px;
+                        classDef phase fill:#7f1d1d,stroke:#9f1239,stroke-width:2px,color:#fff,font-weight:bold,font-size:14px,padding:8px;
+                        classDef action fill:#ffffff,stroke:#e11d48,stroke-width:2px,color:#1e293b,font-size:13px;
                         classDef milestone fill:#ffe4e6,stroke:#f43f5e,stroke-width:2px,color:#9f1239,font-weight:bold;
 
-                        P1["GĐ 1: PHÁP LÝ & QUY HOẠCH XANH"]:::phase
-                        P2["GĐ 2: HẠ TẦNG LÕI & SHOWROOM HÓA"]:::phase
-                        P3["GĐ 3: KHAI THÁC & GỌI VỐN HOLDING"]:::phase
+                        P1["GĐ 1:<br/>Pháp Lý & Thẩm Định"]:::phase
+                        P2["GĐ 2:<br/>Kiến Tạo Hạ Tầng Lõi"]:::phase
+                        P3["GĐ 3:<br/>Khai Thác & Gọi Vốn"]:::phase
 
                         P1 --> P2 --> P3
 
-                        %% Phase 1
-                        A1("1. Chốt bản đồ quy hoạch 1/500 Sinh thái"):::action
-                        A2("2. Thẩm định giá BĐS cấu thành Vốn góp"):::action
-                        A3("3. Xin phép bến thủy nội địa và XD nhẹ"):::action
-                        A4{"Milestone 1:<br/>Pháp lý sạch<br/>Định giá rõ ràng"}:::milestone
+                        A1("1. Lập Bản đồ Quy hoạch Sinh thái"):::action
+                        A2("2. Thẩm định Giá Bất Động Sản"):::action
+                        A3("3. Hoàn tất Cấp phép Xây dựng nhẹ"):::action
+                        A4{"Hồ sơ Pháp lý Sạch<br/>Cấu thành Vốn góp"}:::milestone
 
-                        P1 --> A1 & A2 & A3
-                        A1 & A2 & A3 --> A4
+                        P1 --> A1 & A2 & A3 --> A4
 
-                        %% Phase 2
-                        B1("1. STC thi công Điện mặt trời và Lọc nước"):::action
-                        B2("2. Dựng cụm Glamping và Nhà hàng mẫu"):::action
-                        B3("3. Chuyển cây giống HTX ra đảo trồng"):::action
-                        B4{"Milestone 2:<br/>Đảo CEO tự chủ<br/>Năng lượng xanh"}:::milestone
+                        B1("1. Lắp đặt Solar & Trạm lọc (STC)"):::action
+                        B2("2. Dựng cụm Glamping & Nhà hàng"):::action
+                        B3("3. Triển khai Cảnh quan Dược liệu"):::action
+                        B4{"Đảo Tự Chủ<br/>100% Năng lượng"}:::milestone
 
-                        P2 --> B1 & B2 & B3
+                        P2 --> B1 & B2 & B3 --> B4
                         A4 -. "Khởi công" .-> B1
-                        B1 & B2 & B3 --> B4
 
-                        %% Phase 3
-                        C1("1. Green Travel đưa khách VIP ra khai thác"):::action
-                        C2("2. Tổ chức Event Tasting chốt sỉ Heritage"):::action
-                        C3("3. Bán gói Thẻ Thành viên cho giới VIP"):::action
-                        C4{"Milestone 3:<br/>Dòng tiền BĐS Dịch vụ<br/>Nuôi toàn hệ sinh thái"}:::milestone
+                        C1("1. Mở bán Gói Đặc Quyền"):::action
+                        C2("2. Tổ chức Event B2B Heritage"):::action
+                        C3("3. Đón khách VIP Green Travel"):::action
+                        C4{"Tạo Dòng Tiền<br/>Bảo chứng Định Giá"}:::milestone
 
-                        P3 --> C1 & C2 & C3
+                        P3 --> C1 & C2 & C3 --> C4
                         B4 -. "Bàn giao vận hành" .-> C1
-                        C1 & C2 & C3 --> C4
                 </div>
             </div>
         </section>
 
         <section class="mb-12">
-            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">3. Kế Hoạch Hành Động Chi Tiết Hạ Tầng Đảo CEO</h2>
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">4 Trụ Cột Quản Trị & Khai Thác Bất Động Sản</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
-                <div class="glass-card p-6 border-t-4 border-red-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-red-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-scale-balanced text-2xl text-red-500"></i>
-                        <h3 class="text-xl font-bold">I. Pháp Lý & Định Giá Bất Động Sản</h3>
+                        <h3 class="text-xl font-bold">I. Pháp Lý & Cấu Trúc Vốn</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Định giá Góp vốn:</strong> Thuê đơn vị thẩm định giá độc lập để xác định giá trị quyền sử dụng đất mặt nước của Đảo CEO. Ghi nhận đây là phần "Vốn góp" của các Founder vào Trị An Holding.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Quy hoạch Net-Zero:</strong> Thiết kế Đảo CEO theo chuẩn phát thải bằng 0. Sử dụng vật liệu xây dựng thân thiện (tre, gỗ ghép, bạt glamping), hạn chế tối đa bê tông hóa để xin giấy phép du lịch sinh thái dễ dàng hơn.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Sở hữu Trí tuệ (IP):</strong> Đăng ký bảo hộ nhãn hiệu "Đảo CEO" kết hợp với địa danh Trị An.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Định giá Độc lập (Valuation):</strong> Thực hiện nghiệp vụ thẩm định giá trị quyền sử dụng đất và mặt nước. Ghi nhận rõ ràng đây là phần "Tài sản Góp vốn" của đội ngũ sáng lập vào Trị An Holding.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Quy hoạch Tinh gọn (Lean Construction):</strong> Tuân thủ khắt khe chuẩn phát thải Net-Zero. Tối thiểu hóa bê tông, sử dụng vật liệu thân thiện (tre, gỗ ghép) nhằm đẩy nhanh tiến độ xin phép và thi công.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Bảo vệ Sở hữu Trí tuệ:</strong> Hoàn tất đăng ký bảo hộ độc quyền thương hiệu "Đảo CEO" liên kết với địa danh Trị An.</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-orange-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-orange-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
-                        <i class="fa-solid fa-solar-panel text-2xl text-orange-500"></i>
-                        <h3 class="text-xl font-bold">II. "Showroom" Công Nghệ & Sinh Thái (với STC & HTX)</h3>
+                        <i class="fa-solid fa-leaf text-2xl text-orange-500"></i>
+                        <h3 class="text-xl font-bold">II. Tích Hợp Công Nghệ Sinh Thái (ESG)</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Cột mốc STC:</strong> STC chịu trách nhiệm thi công hệ thống điện mặt trời độc lập (Off-grid) và hệ thống xử lý nước thải sinh học. Đây chính là "Portfolio" thực tế để STC đi nhận thầu các khu công nghiệp/resort khác sau này.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Vườn Di sản HTX:</strong> HTX mang các giống Bưởi Định Quán, Sâm Cau tốt nhất ra trồng tại đảo thành các khu vườn cảnh quan. Vừa để trang trí, vừa làm nơi đào tạo trực quan cho nông hộ mới.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Hầm Rượu Heritage:</strong> Xây dựng không gian lưu trữ và nếm thử (Tasting Lounge) đẳng cấp để tiếp đón các đoàn khách VIP.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Showroom Thực Chiến (STC):</strong> STC trực tiếp thi công lưới điện mặt trời độc lập và hệ thống xử lý nước thải. Đảo CEO trở thành "Portfolio" sống động để STC đi đấu thầu các dự án Khu công nghiệp.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Bảo Tồn Nông Nghiệp (HTX):</strong> Chuyển giao các giống cây quý (Bưởi Định Quán, Mật Nhân) ra đảo trồng tạo cảnh quan, đồng thời thiết lập khu huấn luyện kỹ thuật canh tác kiểu mẫu.</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-rose-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-rose-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
-                        <i class="fa-solid fa-gem text-2xl text-rose-500"></i>
-                        <h3 class="text-xl font-bold">III. Cộng Đồng Tinh Hoa & Chốt Deal B2B</h3>
+                        <i class="fa-solid fa-handshake-angle text-2xl text-rose-500"></i>
+                        <h3 class="text-xl font-bold">III. Ngoại Giao B2B & Định Vị Tinh Hoa</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Căn cứ địa của Heritage:</strong> Không cần thuê văn phòng sang trọng ở trung tâm HCM. Mời các Tổng giám đốc hệ thống siêu thị, nhà hàng (Horeca) ra Đảo CEO nghỉ dưỡng 1 đêm, trải nghiệm câu cá Lăng, uống rượu Sâm Cau tại chỗ -> Tỷ lệ chốt hợp đồng bao tiêu B2B sẽ tăng gấp 3 lần.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Trạm trung chuyển Green Travel:</strong> Biến Đảo CEO thành điểm đến đắt giá nhất (Premium Tier) trong các Tour của Green Travel.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Private Networking:</strong> Thường xuyên tổ chức các buổi hội thảo kín dành cho các CEO, chủ doanh nghiệp (đúng với tên gọi Đảo CEO).</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Phòng Chốt Deal Trị An Heritage:</strong> Đảo CEO là căn cứ địa ngoại giao. Thay vì đàm phán tại văn phòng Sài Gòn, mời đối tác (Siêu thị, Horeca) ra đảo trải nghiệm câu cá, thưởng rượu. </li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Mạng Lưới Kín (Private Networking):</strong> Tổ chức định kỳ các hội nghị chiến lược giới hạn dành cho các CEO, nhà đầu tư thiên thần, đúng với tinh thần "Đảo CEO".</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-pink-600 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-pink-600 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-vault text-2xl text-pink-600"></i>
-                        <h3 class="text-xl font-bold">IV. Đòn Bẩy Tài Chính & Gọi Vốn</h3>
+                        <h3 class="text-xl font-bold">IV. Đòn Bẩy Dòng Tiền & Crowdfunding</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Mô hình "Thẻ Thành Viên Đảo CEO" (Membership):</strong> Không bán đất nền, bán "Đặc quyền". Phát hành các gói thẻ thành viên (ví dụ 10.000 USD/thẻ), khách hàng được nghỉ dưỡng 15 đêm/năm, ưu đãi mua Heritage. Thu một lượng tiền mặt lớn trả trước (Advance Cash) để xây dựng hạ tầng.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Cho thuê nội bộ (Hạch toán độc lập):</strong> Green Travel đưa khách ra đảo nghỉ phải trả tiền thuê phòng cho Đảo CEO. Heritage dùng không gian tổ chức event phải trả phí. Dòng tiền nội bộ này minh bạch hóa doanh thu của khối Bất động sản.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Pitching Đầu tư:</strong> Khi đi gọi vốn cho "Trị An Holding", đưa nhà đầu tư ra đảo để họ nhìn thấy tài sản thật, dòng tiền thật và tiềm năng sinh lời đột phá.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Phát hành Membership (Founders Club):</strong> Thay vì bán bất động sản, bán "Đặc quyền". Chào bán thẻ thành viên trị giá cao (nhận đặc quyền nghỉ dưỡng, mua sỉ Heritage) để huy động Vốn lưu động ngay trước khi xây dựng.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-red-500 mt-1 mr-2"></i> <strong>Hạch toán Nội bộ (Transfer Pricing):</strong> Trị An Green Travel đưa khách ra đảo phải trả chi phí thuê phòng. Heritage mượn đảo làm Event phải trả phí. Giúp định hình Doanh thu BĐS minh bạch.</li>
                     </ul>
                 </div>
 
@@ -262,9 +374,9 @@
 
     </div>
 
-    <footer class="text-center py-8 text-slate-500 text-sm mt-10 border-t border-slate-200">
-        <p class="font-bold">© 2026 TRỊ AN HOLDING ECOSYSTEM - KHỐI HẠ TẦNG ĐẢO CEO.</p>
-        <p class="mt-1">Designed by Executive Strategy Consulting Team</p>
+    <footer class="bg-slate-900 text-center py-8 text-slate-400 text-sm mt-10 border-t-4 border-rose-500">
+        <p class="font-bold text-slate-300">© 2026 TRỊ AN HOLDING ECOSYSTEM - KHỐI HẠ TẦNG ĐẢO CEO.</p>
+        <p class="mt-1">Tài liệu Nội bộ Quản trị Chiến lược Doanh nghiệp.</p>
     </footer>
 
 </body>

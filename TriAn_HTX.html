@@ -17,26 +17,36 @@
                 primaryBorderColor: '#d8b4fe',
                 lineColor: '#a855f7',
                 secondaryColor: '#f3e8ff',
-                tertiaryColor: '#fdf4ff'
+                tertiaryColor: '#fdf4ff',
+                pie1: '#2e1065', pie2: '#9333ea', pie3: '#c026d3', pie4: '#db2777'
             },
             securityLevel: 'loose',
-            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' }
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' },
+            pie: { useMaxWidth: true }
         });
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
-        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border-radius: 1rem; }
-        .gradient-bg { background: linear-gradient(135deg, #312e81 0%, #6b21a8 100%); }
-        .text-gradient { background: linear-gradient(90deg, #7e22ce, #c026d3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .gradient-text { background: linear-gradient(90deg, #9333ea, #db2777); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; }
-        .mermaid svg { min-width: 1100px; height: auto; max-height: 800px; }
-        
+        /* Cấu hình biểu đồ Mermaid */
+        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; border: 1px solid #e2e8f0; width: 100%; }
+        .chart-wide .mermaid svg { min-width: 900px; max-width: 100%; height: auto; margin: 0 auto; display: block; }
+        .chart-pie { display: flex; justify-content: center; align-items: center; padding: 0; }
+        .chart-pie .mermaid svg { width: 100%; max-width: 400px !important; height: auto; margin: 0 auto; display: block; }
+
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: #c084fc; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #9333ea; }
+        ::-webkit-scrollbar-thumb { background: #d8b4fe; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
+        
+        /* Ẩn scrollbar menu mobile */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="antialiased pb-20">
@@ -61,8 +71,8 @@
                 </div>
 
                 <div class="hidden xl:flex items-center shrink-0">
-                    <span class="bg-emerald-900/20 border border-emerald-500 text-emerald-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-                        Seed Round: $300K
+                    <span class="bg-purple-900/20 border border-purple-500 text-purple-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+                        Khối Sản Xuất & R&D
                     </span>
                 </div>
             </div>
@@ -79,58 +89,214 @@
             </div>
         </div>
     </nav>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Lấy tên file hiện tại trên thanh địa chỉ URL
             let path = window.location.pathname;
             let page = path.split("/").pop();
-            if (page === "") page = "index.html"; // Mặc định nếu là trang chủ
-
-            // Lấy tất cả các thẻ a có class 'nav-link'
+            if (page === "") page = "index.html"; 
             const navLinks = document.querySelectorAll('.nav-link');
-
             navLinks.forEach(link => {
                 let href = link.getAttribute('href');
-                
-                // Xóa trạng thái mặc định
                 link.classList.remove('bg-slate-700', 'text-white', 'text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
-                
                 if (href === page) {
-                    // Nếu là trang hiện tại: Đổi màu nền xám đậm, chữ trắng (Active)
                     link.classList.add('bg-[#1e293b]', 'text-white', 'shadow-md');
-                    // Riêng mobile đổi viền
                     if (window.innerWidth < 1024) {
                         link.classList.remove('border-slate-700');
                         link.classList.add('border-slate-400', 'bg-slate-700');
                     }
                 } else {
-                    // Nếu không phải trang hiện tại: Chữ xám, hover sáng lên (Inactive)
                     link.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
                 }
             });
         });
     </script>
-    <style>
-        /* Ẩn thanh cuộn xấu xí trên mobile menu */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
-    ```
-
-
-
     <div class="max-w-[95%] mx-auto mt-10 space-y-12">
 
-        <div class="text-center space-y-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Kế Hoạch Xây Dựng <span class="text-gradient">Gốc Rễ Sản Xuất</span></h1>
-            <p class="text-lg text-slate-600 max-w-4xl mx-auto leading-relaxed">Chuẩn hóa vùng nguyên liệu, quản trị chất lượng truy xuất nguồn gốc, thiết lập hợp đồng bao tiêu và tích hợp công nghệ từ STC để đảm bảo đạn dược cho Trị An Heritage.</p>
+        <div class="relative bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
+            <div class="absolute inset-0 opacity-50 mix-blend-overlay" style="background-image: url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;"></div>
+            <div class="relative z-10 p-10 md:p-16 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30 text-sm font-bold tracking-widest mb-4 uppercase">Sản Xuất & R&D</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">Liên Minh HTX Trị An</h1>
+                <p class="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed">Trái tim sản xuất của hệ sinh thái. Chịu trách nhiệm quy hoạch quỹ đất, chuẩn hóa quy trình canh tác (VietGAP), kiểm soát chất lượng và cung ứng nguồn hàng hóa ổn định cho khối Thương mại.</p>
+            </div>
         </div>
 
-        <section class="glass-card p-6 md:p-8 border-t-4 border-purple-600">
+        <section>
+            <div class="flex items-center space-x-3 mb-8 justify-center">
+                <i class="fa-solid fa-layer-group text-3xl text-slate-800"></i>
+                <h2 class="text-3xl font-extrabold text-slate-900 text-center">Quy Mô Vùng Nguyên Liệu</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+                
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-blue-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?auto=format&fit=crop&w=800&q=80" alt="Mặt nước lòng hồ" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Mặt Nước Lòng Hồ</h3>
+                            <span class="bg-blue-100 text-blue-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Thủy Sản</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Khai thác diện tích mặt nước theo chuẩn sinh thái. Liên kết lồng bè nuôi Cá Lăng, đánh bắt Cá Lìm Kìm, Cá Cơm tự nhiên tuân thủ hạn ngạch bảo tồn.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-emerald-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=800&q=80" alt="Vườn Sinh Thái" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Vườn Nông Sản Sinh Thái</h3>
+                            <span class="bg-emerald-100 text-emerald-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Trồng Trọt</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Quy hoạch các vùng trồng Bưởi Định Quán chuẩn VietGAP. Mở rộng mô hình trồng dược liệu quý (Sâm Cau, Mật Nhân) dưới tán rừng và giàn pin mặt trời.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-amber-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80" alt="Trang Trại Gà" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Trang Trại Đảo CEO</h3>
+                            <span class="bg-amber-100 text-amber-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Chăn Nuôi</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Khai thác không gian mở tại Đảo CEO và vùng đệm để chăn thả Gà Đảo tự nhiên, sử dụng thức ăn phối trộn thảo dược, loại bỏ hoàn toàn cám công nghiệp.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl border-t-4 border-purple-500 overflow-hidden">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Trung tâm Chế Biến & R&D" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow bg-purple-50/30">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Cụm Xưởng Chế Biến</h3>
+                            <span class="bg-purple-100 text-purple-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Chế Biến</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Hệ thống xưởng sơ chế thủy sản vô trùng, hút chân không và cấp đông sâu. Tích hợp khu vực ngâm ủ rượu và đóng gói thành phẩm theo chuẩn xuất khẩu.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="bg-slate-900 rounded-3xl p-8 md:p-12 shadow-2xl border border-slate-700">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-fuchsia-400 mb-4">Mô Hình Bao Tiêu Chiến Lược (Win - Win - Win)</h2>
+                <p class="text-slate-300 max-w-3xl mx-auto">Tối ưu hóa cấu trúc vốn (Asset-light) bằng cách liên kết trực tiếp với các hộ nông dân. HTX đóng vai trò cung cấp giải pháp kỹ thuật và đảm bảo toàn bộ đầu ra.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                <div class="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-1 bg-gradient-to-r from-emerald-500 via-fuchsia-500 to-blue-500 -translate-y-1/2 z-0 opacity-50"></div>
+
+                <div class="bg-slate-800 rounded-2xl p-6 border border-slate-600 relative z-10 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-2xl mb-4 border-2 border-emerald-500"><i class="fa-solid fa-tractor"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Hộ Nông Dân</h3>
+                    <p class="text-sm text-slate-400 mb-4">Cung cấp mặt bằng canh tác, ao hồ lồng bè và trực tiếp tham gia chăm sóc.</p>
+                    <div class="w-full bg-slate-900 p-3 rounded-lg text-left text-sm text-emerald-300 border border-slate-700">
+                        <i class="fa-solid fa-plus text-emerald-500 mr-2"></i> Nhận Giống & Vật tư<br>
+                        <i class="fa-solid fa-plus text-emerald-500 mr-2"></i> Nhận Đào tạo kỹ thuật<br>
+                        <i class="fa-solid fa-shield-halved text-emerald-500 mr-2"></i> Được bao tiêu đầu ra
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 rounded-2xl p-6 border border-fuchsia-500 relative z-10 flex flex-col items-center text-center shadow-[0_0_20px_rgba(217,70,239,0.2)] scale-105">
+                    <div class="absolute -top-3 bg-fuchsia-500 text-white text-xs font-bold px-3 py-1 rounded-full">TRUNG TÂM KIỂM SOÁT</div>
+                    <div class="w-16 h-16 bg-fuchsia-500/20 text-fuchsia-400 rounded-full flex items-center justify-center text-2xl mb-4 border-2 border-fuchsia-500"><i class="fa-solid fa-microscope"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Liên Minh HTX</h3>
+                    <p class="text-sm text-slate-400 mb-4">Ban hành SOP, giám sát chất lượng định kỳ, ứng dụng IoT và chế biến sâu.</p>
+                    <div class="w-full bg-slate-900 p-3 rounded-lg text-left text-sm text-fuchsia-300 border border-fuchsia-900">
+                        <i class="fa-solid fa-check text-fuchsia-500 mr-2"></i> Thu mua theo giá cam kết<br>
+                        <i class="fa-solid fa-check text-fuchsia-500 mr-2"></i> Đóng gói & Cấp đông<br>
+                        <i class="fa-solid fa-check text-fuchsia-500 mr-2"></i> Truy xuất Nguồn gốc QR
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 rounded-2xl p-6 border border-slate-600 relative z-10 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center text-2xl mb-4 border-2 border-blue-500"><i class="fa-solid fa-store"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Trị An Heritage</h3>
+                    <p class="text-sm text-slate-400 mb-4">Tiếp nhận thành phẩm cuối, triển khai Marketing và phân phối thương mại.</p>
+                    <div class="w-full bg-slate-900 p-3 rounded-lg text-left text-sm text-blue-300 border border-slate-700">
+                        <i class="fa-solid fa-arrow-trend-up text-blue-500 mr-2"></i> Thanh toán giá sỉ cho HTX<br>
+                        <i class="fa-solid fa-bullhorn text-blue-500 mr-2"></i> Mở rộng đại lý phân phối<br>
+                        <i class="fa-solid fa-sack-dollar text-blue-500 mr-2"></i> Ghi nhận doanh thu Tập đoàn
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-gradient-to-br from-slate-900 to-purple-900 rounded-3xl p-10 md:p-16 border border-purple-700 shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 mix-blend-overlay opacity-30" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;"></div>
+            
+            <div class="relative z-10 text-center mb-12">
+                <span class="inline-block py-1 px-3 rounded-full bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-400/30 text-sm font-bold tracking-widest mb-4 uppercase">Chương Trình Phát Triển</span>
+                <h2 class="text-4xl font-extrabold text-white tracking-tight">Chiến Lược Mở Rộng Quy Mô (Scale-up)</h2>
+                <p class="text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed mt-4">Phát triển năng lực sản xuất bằng việc thiết lập các quan hệ đối tác chiến lược. Tích hợp công nghệ, nâng cấp hạ tầng logistics và tận dụng các nguồn tín dụng phát triển bền vững.</p>
+            </div>
+
+            <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=800&q=80" alt="VietGAP training" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">1. Chuẩn Hóa Chuỗi Cung Ứng</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Mở rộng diện tích canh tác thông qua việc ký kết hợp đồng với các trang trại vệ tinh. Tổ chức đào tạo và giám sát chéo để 100% đối tác đạt chứng nhận VietGAP, đáp ứng yêu cầu khắt khe của mảng bán lẻ cao cấp.</p>
+                    </div>
+                    <div class="text-xs font-medium text-fuchsia-300 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-users mr-2"></i> Mạng lưới: 50+ Nông hộ vệ tinh & Kỹ sư Nông nghiệp</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="Agri Tech" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">2. Ứng Dụng Công Nghệ IoT & R&D</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Số hóa quy trình nuôi trồng bằng hệ thống cảm biến môi trường do khối STC triển khai. Kết hợp với việc nghiên cứu công thức thức ăn sinh học, tạo ra lợi thế cạnh tranh tuyệt đối về chất lượng sản phẩm.</p>
+                    </div>
+                    <div class="text-xs font-medium text-fuchsia-300 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-microchip mr-2"></i> Tích hợp nội bộ: STC (Công nghệ & Viễn thông)</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=800&q=80" alt="Cold Chain Logistics" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">3. Phát Triển Hệ Thống Cold Chain</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Đầu tư trọng điểm vào hệ thống lưu trữ nhiệt độ thấp (Cold Storage). Thiết lập trung tâm trung chuyển phân phối (Distribution Center) tại cửa ngõ TP.HCM nhằm giảm thiểu hao hụt và tối ưu hóa chi phí vận tải.</p>
+                    </div>
+                    <div class="text-xs font-medium text-fuchsia-300 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-truck-fast mr-2"></i> Đối tác vận tải: Đơn vị Logistics chuyên dụng</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group border-l-4 border-emerald-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" alt="Corporate Handshake" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">4. Tiếp Cận Nguồn Vốn Xanh (ESG)</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Thực thi các tiêu chuẩn phát triển bền vững và kinh tế tuần hoàn. Hoàn thiện hồ sơ chứng nhận OCOP 4-5 sao cho các sản phẩm chủ lực nhằm tiếp cận các gói tín dụng ưu đãi từ Quỹ đầu tư Xanh.</p>
+                    </div>
+                    <div class="text-xs font-medium text-emerald-400 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-landmark mr-2"></i> Mục tiêu: Mở rộng dòng vốn phát triển bền vững</div>
+                </div>
+            </div>
+        </section>
+
+		<section class="glass-card p-6 md:p-8 border-t-4 border-purple-600">
             <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
                 <div class="p-3 bg-purple-100 text-purple-800 rounded-lg"><i class="fa-solid fa-network-wired text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-slate-800">1. Cấu Trúc Vận Hành Liên Minh HTX</h2>
+                <h2 class="text-2xl font-bold text-slate-800">Cấu Trúc Vận Hành Liên Minh HTX</h2>
             </div>
             <div class="mermaid-wrapper border border-slate-100 shadow-inner">
                 <div class="mermaid">
@@ -163,106 +329,100 @@
                 </div>
             </div>
         </section>
-
-        <section class="glass-card p-6 md:p-8 border-t-4 border-fuchsia-600">
+		
+        <section class="glass-card p-6 md:p-8 border-t-4 border-fuchsia-500 chart-wide">
             <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
                 <div class="p-3 bg-fuchsia-100 text-fuchsia-800 rounded-lg"><i class="fa-solid fa-route text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-slate-800">2. Lộ Trình Gom Tụ & Tối Ưu Nguồn Cung (Q2 - Q3/2026)</h2>
+                <h2 class="text-2xl font-bold text-slate-800">Lộ Trình Chuẩn Hóa Sản Xuất (2026)</h2>
             </div>
-            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
+            <div class="mermaid-wrapper">
                 <div class="mermaid">
                     graph LR
-                        classDef phase fill:#2e1065,stroke:#4c1d95,stroke-width:2px,color:#fff,font-weight:bold,font-size:16px,padding:10px;
-                        classDef action fill:#ffffff,stroke:#9333ea,stroke-width:2px,color:#1e293b,font-size:14px;
+                        classDef phase fill:#2e1065,stroke:#4c1d95,stroke-width:2px,color:#fff,font-weight:bold,font-size:14px,padding:8px;
+                        classDef action fill:#ffffff,stroke:#9333ea,stroke-width:2px,color:#1e293b,font-size:13px;
                         classDef milestone fill:#f3e8ff,stroke:#a855f7,stroke-width:2px,color:#6b21a8,font-weight:bold;
 
-                        P1[GĐ 1: GOM TỤ &<br/>KÝ KẾT BAO TIÊU]:::phase
-                        P2[GĐ 2: CHUẨN HÓA &<br/>CÔNG NGHỆ HÓA]:::phase
-                        P3[GĐ 3: CHẾ BIẾN SÂU &<br/>BÀN GIAO THƯƠNG MẠI]:::phase
+                        P1["Giai đoạn 1:<br/>Gom tụ & Ký kết"]:::phase
+                        P2["Giai đoạn 2:<br/>Kiểm soát Chất lượng"]:::phase
+                        P3["Giai đoạn 3:<br/>Chế biến & Bàn giao"]:::phase
 
                         P1 --> P2 --> P3
 
-                        %% Phase 1
-                        A1(1. Ký HĐ bao tiêu với Nông hộ/Lồng bè)
-                        A2(2. Chốt HĐ Chuyển giá nội bộ với Heritage)
-                        A3(3. Thuê/Xây dựng Kho Lạnh trung tâm)
-                        A4{Milestone 1:<br/>Đảm bảo nguồn cung<br/>6 tháng không đứt gãy}:::milestone
+                        A1("1. Thẩm định Nông hộ"):::action
+                        A2("2. Ký Hợp đồng Bao tiêu"):::action
+                        A3("3. Xây dựng Kho lạnh nội bộ"):::action
+                        A4{"Hoàn tất<br/>Mạng lưới vệ tinh"}:::milestone
 
-                        P1 --> A1 & A2 & A3
-                        A1 & A2 & A3 --> A4
+                        P1 --> A1 & A2 & A3 --> A4
 
-                        %% Phase 2
-                        B1(1. Ban hành Sổ tay Canh tác VietGAP)
-                        B2(2. Lắp đặt cảm biến IoT từ STC)
-                        B3(3. Cài đặt ERP quản lý Truy xuất Nguồn gốc)
-                        B4{Milestone 2:<br/>100% Sản phẩm<br/>có QR Code minh bạch}:::milestone
+                        B1("1. Áp dụng quy chuẩn VietGAP"):::action
+                        B2("2. Tích hợp thiết bị IoT (STC)"):::action
+                        B3("3. Hệ thống Tracking ERP"):::action
+                        B4{"100% Sản phẩm<br/>Có truy xuất QR"}:::milestone
 
-                        P2 --> B1 & B2 & B3
-                        A4 -. Nền tảng .-> B1
-                        B1 & B2 & B3 --> B4
+                        P2 --> B1 & B2 & B3 --> B4
+                        A4 -. "Cơ sở" .-> B1
 
-                        %% Phase 3
-                        C1(1. Vận hành quy trình Cấp đông sâu thủy sản)
-                        C2(2. Đóng gói hoàn thiện Rượu, Bưởi, Gà)
-                        C3(3. Điều phối Logistics xe tải lạnh về HCM)
-                        C4{Milestone 3:<br/>Bàn giao hàng hóa<br/>tận kho Heritage}:::milestone
+                        C1("1. Vận hành Cấp đông sâu"):::action
+                        C2("2. Đóng hộp thành phẩm"):::action
+                        C3("3. Vận hành Đội xe lạnh"):::action
+                        C4{"Bàn giao hàng hóa<br/>cho Khối Thương Mại"}:::milestone
 
-                        P3 --> C1 & C2 & C3
-                        B4 -. Tiêu chuẩn .-> C1
-                        C1 & C2 & C3 --> C4
+                        P3 --> C1 & C2 & C3 --> C4
+                        B4 -. "Tiêu chuẩn" .-> C1
                 </div>
             </div>
         </section>
 
         <section class="mb-12">
-            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">3. Kế Hoạch Hành Động Chi Tiết Khối Sản Xuất</h2>
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">4 Trụ Cột Vận Hành Sản Xuất</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
-                <div class="glass-card p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-indigo-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-users text-2xl text-indigo-500"></i>
-                        <h3 class="text-xl font-bold">I. Mở Rộng Liên Kết Nông Hộ</h3>
+                        <h3 class="text-xl font-bold">I. Quản Trị Đối Tác Cung Ứng</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Chính sách "Hạt Nhân":</strong> Chọn ra 3-5 hộ nuôi cá lăng/trồng bưởi xuất sắc nhất làm hộ mô hình. Hỗ trợ họ thức ăn/phân bón trả chậm để họ cam kết sản lượng.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Hợp đồng Bao tiêu (Offtake Agreement):</strong> Cam kết mua lại 100% sản lượng đạt chuẩn với giá sàn (bảo vệ nông dân khi mất giá) hoặc giá thị trường + % thưởng (khi được giá).</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Xây dựng văn hóa HTX:</strong> Tổ chức các buổi đào tạo định kỳ tại Đảo CEO, biến nông dân thành "Nghệ nhân Di sản".</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Xây dựng Hộ mô hình:</strong> Lựa chọn các hộ nuôi cá và trang trại bưởi xuất sắc nhất để xây dựng mô hình điểm. Hỗ trợ kỹ thuật và vật tư ban đầu.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Cam kết Đầu ra (Offtake):</strong> Ký hợp đồng bao tiêu sản lượng với mức giá bảo vệ rủi ro cho nông dân, đảm bảo chuỗi cung ứng không bị đứt gãy.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Chương trình Đào tạo:</strong> Tổ chức các khóa huấn luyện định kỳ, nâng cao nhận thức về canh tác bền vững.</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-fuchsia-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-fuchsia-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-microscope text-2xl text-fuchsia-500"></i>
-                        <h3 class="text-xl font-bold">II. R&D & Kiểm Soát Chất Lượng (QA/QC)</h3>
+                        <h3 class="text-xl font-bold">II. Kiểm Soát Chất Lượng (QA/QC)</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Chuẩn hóa quy trình:</strong> Viết SOP (Standard Operating Procedure) cho từng con cá, trái bưởi. Cá lăng thu hoạch phải ép ăn nhạt 3 ngày trước khi đánh bắt để thịt săn chắc, không tanh.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Truy xuất QR Code:</strong> Áp dụng nhật ký điện tử. Quét mã QR trên hộp Gà Đảo phải hiện ra ngày ấp nở, loại thức ăn, ngày thịt. </li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Giấy phép & Chứng nhận:</strong> Chạy đua lấy các chứng nhận VietGAP, OCOP 4 sao, ATVSTP làm vũ khí marketing cho Heritage.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>SOP Chuyên biệt:</strong> Áp dụng kỹ thuật ép nhạt thủy sản trước thu hoạch nhằm đảm bảo chất lượng thịt tối ưu, đáp ứng tiêu chuẩn nhà hàng cao cấp.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Minh bạch Nguồn gốc:</strong> Hệ thống nhật ký điện tử cho phép khách hàng tra cứu thông tin quy trình nuôi trồng thông qua mã QR trên bao bì.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Pháp lý Sản phẩm:</strong> Hoàn thiện hồ sơ kiểm định VSATTP, chứng nhận OCOP làm nền tảng mở rộng thương mại.</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-pink-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-pink-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-industry text-2xl text-pink-500"></i>
-                        <h3 class="text-xl font-bold">III. Hạ Tầng Chế Biến & Công Nghệ (Nhận từ STC)</h3>
+                        <h3 class="text-xl font-bold">III. Hạ Tầng Chế Biến & Vận Hành</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Xưởng Sơ Chế Lạnh:</strong> Khu vực làm cá, làm gà phải có điều hòa (nhiệt độ phòng 18-20 độ C) để tránh vi khuẩn sinh sôi.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Tích hợp Năng lượng STC:</strong> Phủ tấm pin năng lượng mặt trời trên mái xưởng HTX để giảm thiểu 30-40% tiền điện cho các kho lạnh cấp đông âm 18 độ C.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Quản lý hao hụt sinh học:</strong> Đầu tư máy xay phụ phẩm (vảy cá, xương, nội tạng) làm phân bón hữu cơ bón ngược lại cho vườn bưởi, sâm cau (Kinh tế tuần hoàn).</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Quy chuẩn Nhà xưởng:</strong> Khu vực sơ chế được duy trì nhiệt độ khép kín (18-20°C) nhằm kiểm soát vi sinh và đảm bảo độ tươi của nguyên liệu.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Tối ưu Năng lượng:</strong> Lắp đặt hệ thống điện mặt trời trên mái xưởng giúp cắt giảm đáng kể chi phí điện năng cho hệ thống kho lạnh cấp đông.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Kinh tế Tuần hoàn:</strong> Chuyển hóa phụ phẩm nông nghiệp thành phân bón sinh học phục vụ trở lại cho vùng trồng trọt.</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-violet-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-violet-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-file-invoice-dollar text-2xl text-violet-500"></i>
-                        <h3 class="text-xl font-bold">IV. Tài Chính & Chuyển Giá Nội Bộ</h3>
+                        <h3 class="text-xl font-bold">IV. Kế Hoạch Tài Chính Nội Bộ</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Bảng Giá Chuyển Giao:</strong> Ban hành Bảng giá gốc (HTX bán cho Heritage). Bảng giá này đã bao gồm +10% đến +15% biên lợi nhuận để HTX có quỹ tái đầu tư mở rộng quy mô.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Quản trị tồn kho ERP:</strong> Heritage bán được 100 hộp cá lăng -> ERP tự động báo HTX đánh bắt và làm sạch 150kg cá lăng nguyên liệu. Tránh tình trạng nuôi quá nhiều gây đọng vốn hoặc thiếu hàng lúc cao điểm.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Định giá tài sản Vốn:</strong> Toàn bộ giá trị máy móc, nhà xưởng, đàn vật nuôi của HTX sẽ được thẩm định để góp vốn vào Trị An Holding phục vụ gọi vốn chung.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Chính sách Giá vốn (Transfer Pricing):</strong> Thiết lập cơ chế định giá bán sỉ nội bộ nhằm đảm bảo HTX có đủ biên lợi nhuận để duy trì và tái đầu tư hệ thống.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Đồng bộ Kế hoạch (S&OP):</strong> Lệnh sản xuất được kết nối trực tiếp với dữ liệu bán hàng của Heritage qua hệ thống ERP, tối ưu hóa vòng quay hàng tồn kho.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i> <strong>Định giá Tài sản:</strong> Hệ thống nhà xưởng, máy móc và công nghệ được thẩm định minh bạch để hạch toán vào tổng tài sản của Tập đoàn.</li>
                     </ul>
                 </div>
 
@@ -271,9 +431,9 @@
 
     </div>
 
-    <footer class="text-center py-8 text-slate-500 text-sm mt-10 border-t border-slate-200">
-        <p class="font-bold">© 2026 TRỊ AN HOLDING ECOSYSTEM - KHỐI LIÊN MINH HTX.</p>
-        <p class="mt-1">Designed by Executive Strategy Consulting Team</p>
+    <footer class="bg-slate-900 text-center py-8 text-slate-400 text-sm mt-10 border-t-4 border-purple-500">
+        <p class="font-bold text-slate-300">© 2026 TRỊ AN HOLDING ECOSYSTEM - KHỐI LIÊN MINH HTX.</p>
+        <p class="mt-1">Tài liệu Nội bộ Quản trị Chiến lược Doanh nghiệp.</p>
     </footer>
 
 </body>

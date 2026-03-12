@@ -17,31 +17,41 @@
                 primaryBorderColor: '#fcd34d',
                 lineColor: '#d97706',
                 secondaryColor: '#fef3c7',
-                tertiaryColor: '#fffbeb'
+                tertiaryColor: '#fffbeb',
+                pie1: '#78350f', pie2: '#b45309', pie3: '#d97706', pie4: '#f59e0b'
             },
             securityLevel: 'loose',
-            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' }
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' },
+            pie: { useMaxWidth: true }
         });
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
-        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border-radius: 1rem; }
-        .gradient-bg { background: linear-gradient(135deg, #78350f 0%, #b45309 100%); }
-        .text-gradient { background: linear-gradient(90deg, #d97706, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .gradient-text { background: linear-gradient(90deg, #d97706, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; }
-        .mermaid svg { min-width: 1100px; height: auto; max-height: 800px; }
-        
+        /* Cấu hình biểu đồ Mermaid */
+        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; border: 1px solid #e2e8f0; width: 100%; }
+        .chart-wide .mermaid svg { min-width: 900px; max-width: 100%; height: auto; margin: 0 auto; display: block; }
+        .chart-pie { display: flex; justify-content: center; align-items: center; padding: 0; }
+        .chart-pie .mermaid svg { width: 100%; max-width: 400px !important; height: auto; margin: 0 auto; display: block; }
+
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: #fbbf24; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #fcd34d; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
+        
+        /* Ẩn scrollbar menu mobile */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="antialiased pb-20">
 
-   <nav class="bg-[#0f172a] shadow-2xl sticky top-0 z-50 border-b border-slate-700">
+    <nav class="bg-[#0f172a] shadow-2xl sticky top-0 z-50 border-b border-slate-700">
         <div class="max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <div class="flex justify-between items-center">
                 <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition cursor-pointer shrink-0">
@@ -61,8 +71,8 @@
                 </div>
 
                 <div class="hidden xl:flex items-center shrink-0">
-                    <span class="bg-emerald-900/20 border border-emerald-500 text-emerald-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-                        Seed Round: $300K
+                    <span class="bg-amber-900/20 border border-amber-500 text-amber-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+                        Cộng Đồng Bền Vững
                     </span>
                 </div>
             </div>
@@ -79,180 +89,286 @@
             </div>
         </div>
     </nav>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Lấy tên file hiện tại trên thanh địa chỉ URL
             let path = window.location.pathname;
             let page = path.split("/").pop();
-            if (page === "") page = "index.html"; // Mặc định nếu là trang chủ
-
-            // Lấy tất cả các thẻ a có class 'nav-link'
+            if (page === "") page = "index.html"; 
             const navLinks = document.querySelectorAll('.nav-link');
-
             navLinks.forEach(link => {
                 let href = link.getAttribute('href');
-                
-                // Xóa trạng thái mặc định
                 link.classList.remove('bg-slate-700', 'text-white', 'text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
-                
                 if (href === page) {
-                    // Nếu là trang hiện tại: Đổi màu nền xám đậm, chữ trắng (Active)
                     link.classList.add('bg-[#1e293b]', 'text-white', 'shadow-md');
-                    // Riêng mobile đổi viền
                     if (window.innerWidth < 1024) {
                         link.classList.remove('border-slate-700');
                         link.classList.add('border-slate-400', 'bg-slate-700');
                     }
                 } else {
-                    // Nếu không phải trang hiện tại: Chữ xám, hover sáng lên (Inactive)
                     link.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
                 }
             });
         });
     </script>
-    <style>
-        /* Ẩn thanh cuộn xấu xí trên mobile menu */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
-    ```
-
-
     <div class="max-w-[95%] mx-auto mt-10 space-y-12">
 
-        <div class="text-center space-y-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Quy Hoạch Phễu <span class="text-gradient">Cộng Đồng Liên Kết</span></h1>
-            <p class="text-lg text-slate-600 max-w-4xl mx-auto leading-relaxed">Xây dựng tệp khách hàng trung thành bằng cách cá nhân hóa từng cộng đồng. Biến người dùng thành người đại diện thương hiệu (KOCs), kết nối sâu rộng với OTA, Lữ hành và Chính quyền địa phương để tạo ra cỗ máy tạo "Traffic" miễn phí cho hệ sinh thái.</p>
+        <div class="relative bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
+            <div class="absolute inset-0 opacity-40 mix-blend-overlay" style="background-image: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;"></div>
+            <div class="relative z-10 p-10 md:p-16 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-sm font-bold tracking-widest mb-4 uppercase">Customer Lifetime Value (LTV)</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">Trị An Community Hub</h1>
+                <p class="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed">Hệ thống quản trị tài sản Dữ liệu khách hàng (First-party Data). Biến người tiêu dùng thành người ủng hộ trung thành, giảm thiểu chi phí Marketing (CAC) và thúc đẩy bán chéo (Cross-sell) cho toàn bộ hệ sinh thái.</p>
+            </div>
         </div>
 
-        <section class="glass-card p-6 md:p-8 border-t-4 border-amber-500">
-            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
-                <div class="p-3 bg-amber-100 text-amber-800 rounded-lg"><i class="fa-solid fa-network-wired text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-slate-800">1. Kiến Trúc 3 Siêu Cộng Đồng Trị An</h2>
+        <section>
+            <div class="flex items-center space-x-3 mb-8 justify-center">
+                <i class="fa-solid fa-users-rays text-3xl text-slate-800"></i>
+                <h2 class="text-3xl font-extrabold text-slate-900 text-center">Quy Hoạch Cấu Trúc Khách Hàng Trọng Điểm</h2>
             </div>
-            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
-                <div class="mermaid">
-                    mindmap
-                      root(("TRỊ AN COMMUNITY HUB"))
-                        ["1. Ghiền Đặc Sản - Sống Thuận Tự Nhiên"]
-                          ("Nền tảng: FB Group, Zalo OA, Tiktok")
-                          ("Tệp: Hội nội trợ, Yêu sức khỏe, KOCs F&B")
-                          ("Nuôi dưỡng: Trị An Heritage, HTX")
-                          ("Sản phẩm: Cá, Gà, Rượu, Bưởi, Nông sản")
-                        ["2. Trị An Retreat - Trạm Chữa Lành"]
-                          ("Nền tảng: IG, Tiktok, FB Group, Web OTA")
-                          ("Tệp: Dân xê dịch, Gia đình nghỉ dưỡng, HR Cty")
-                          ("Nuôi dưỡng: Green Travel, Đảo CEO")
-                          ("Sản phẩm: Tour Glamping, Team Building, Farmstay")
-                        ["3. Trị An Founders & Partners"]
-                          ("Nền tảng: LinkedIN, Zalo Nhóm Kín, Offline Event")
-                          ("Tệp: Giới Doanh nhân, Đại lý B2B, Nhà đầu tư")
-                          ("Nuôi dưỡng: Holding, STC Năng lượng, BĐS")
-                          ("Sản phẩm: Gói đầu tư, Thẻ VIP Đảo CEO, Giải pháp STC")
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+                
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-blue-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80" alt="Cộng đồng Ẩm thực" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Ghiền Đặc Sản - Sống Khỏe</h3>
+                            <span class="bg-blue-100 text-blue-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Mass Market</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Tập hợp nhóm gia đình nội trợ, KOCs ẩm thực và người yêu sức khỏe. Nơi chia sẻ công thức nấu ăn, review nguyên liệu sạch chuẩn VietGAP.</p>
+                        <div class="text-xs font-semibold text-blue-600 border-t border-slate-100 pt-3 mt-auto"><i class="fa-solid fa-cart-shopping mr-1"></i> Nuôi dưỡng: Trị An Heritage</div>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-emerald-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80" alt="Cộng đồng Du lịch" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Trị An Retreat - Chữa Lành</h3>
+                            <span class="bg-emerald-100 text-emerald-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Lifestyle</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Nhóm cộng đồng đam mê xê dịch, cắm trại (Glamping), thiền định và tìm kiếm không gian cân bằng tâm trí ven hồ.</p>
+                        <div class="text-xs font-semibold text-emerald-600 border-t border-slate-100 pt-3 mt-auto"><i class="fa-solid fa-leaf mr-1"></i> Nuôi dưỡng: Green Travel</div>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-amber-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Networking Doanh nhân" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Mạng Lưới Tinh Hoa (B2B)</h3>
+                            <span class="bg-amber-100 text-amber-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">VIP / Investors</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Cộng đồng kín (Private Club) dành cho các Nhà đầu tư, CEO, Đại lý phân phối sỉ cấp 1 và đối tác chiến lược của Tập đoàn.</p>
+                        <div class="text-xs font-semibold text-amber-600 border-t border-slate-100 pt-3 mt-auto"><i class="fa-solid fa-gem mr-1"></i> Nuôi dưỡng: Đảo CEO & STC</div>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl border-t-4 border-cyan-500 overflow-hidden">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80" alt="Nông nghiệp Công nghệ" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow bg-cyan-50/30">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Cộng Đồng Sinh Thái ESG</h3>
+                            <span class="bg-cyan-100 text-cyan-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Local Tech</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Liên kết các kỹ sư nông nghiệp, người nông dân vệ tinh và cộng đồng yêu thích công nghệ xanh, năng lượng tái tạo tại địa phương.</p>
+                        <div class="text-xs font-semibold text-cyan-600 border-t border-slate-100 pt-3 mt-auto"><i class="fa-solid fa-microchip mr-1"></i> Nuôi dưỡng: Liên Minh HTX</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="bg-gradient-to-br from-slate-900 to-amber-950 rounded-3xl p-10 md:p-16 border border-amber-800 shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 mix-blend-overlay opacity-30" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;"></div>
+            
+            <div class="relative z-10 text-center mb-12">
+                <span class="inline-block py-1 px-3 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-sm font-bold tracking-widest mb-4 uppercase">Chiến Lược Tăng Trưởng</span>
+                <h2 class="text-4xl font-extrabold text-white tracking-tight">Giải Pháp Chuyển Đổi Dòng Tiền</h2>
+                <p class="text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed mt-4">Ứng dụng công nghệ lõi để số hóa dữ liệu người dùng (First-party Data), tự động hóa các chiến dịch Remarketing và tối đa hóa giá trị khai thác trên từng khách hàng (LTV).</p>
+            </div>
+
+            <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=800&q=80" alt="Affiliate Marketing" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">1. Khởi Tạo Mạng Lưới Tiếp Thị Liên Kết</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Cung cấp công cụ công nghệ cho khách hàng cũ và KOCs. Mỗi cá nhân được cấp một mã QR Code/Link Tracking riêng biệt. Hệ thống tự động ghi nhận doanh số và đối soát hoa hồng theo thời gian thực (Real-time), kích thích việc chia sẻ truyền miệng.</p>
+                    </div>
+                    <div class="text-xs font-medium text-amber-400 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-chart-line mr-2"></i> Mục tiêu: Chuyển hóa Khách hàng thành Kênh phân phối</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80" alt="O2O Event" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">2. Mô Hình Phễu Tương Tác O2O (Online to Offline)</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Thu hút lượng truy cập (Traffic) thông qua các minigame và content giáo dục trên Facebook/Tiktok. Chuyển đổi thành doanh thu thực tế thông qua các sự kiện Offline như "Ngày hội Đặc sản" hoặc các Tour trải nghiệm trực tiếp tại vườn HTX.</p>
+                    </div>
+                    <div class="text-xs font-medium text-amber-400 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-handshake mr-2"></i> Trọng tâm: Xây dựng lòng tin bằng Trải nghiệm thật</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group border-l-4 border-blue-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Data Loyalty" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">3. Quản Trị Dữ Liệu Khách Hàng (CRM Tập Trung)</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Mọi tương tác từ các công ty con được hội tụ về hệ thống CRM chung (Zalo OA). Tự động phân tích hành vi để kích hoạt Bán chéo (Cross-sell). Ví dụ: Khách vừa đi du lịch sẽ tự động nhận voucher mua Cá Lăng qua tin nhắn.</p>
+                    </div>
+                    <div class="text-xs font-medium text-blue-400 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-database mr-2"></i> Hạ tầng: Data Center liên thông toàn Tập đoàn</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group border-l-4 border-rose-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=800&q=80" alt="VIP Club" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">4. Xây Dựng Hệ Sinh Thái Đặc Quyền (VIP Club)</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Thành lập diễn đàn kín (Private Networking) dành riêng cho các Tổng Đại Lý, Đối tác B2B và Nhà đầu tư. Áp dụng chính sách chăm sóc cá nhân hóa: Tặng kỳ nghỉ VIP tại Đảo CEO hoặc chiết khấu ưu đãi gói Năng lượng mặt trời của STC.</p>
+                    </div>
+                    <div class="text-xs font-medium text-rose-400 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-crown mr-2"></i> Định vị: Giữ chân đối tác tạo ra 80% lợi nhuận</div>
                 </div>
             </div>
         </section>
 
-        <section class="glass-card p-6 md:p-8 border-t-4 border-orange-500">
+        <section class="glass-card p-6 md:p-8 border-t-4 border-amber-600 chart-wide">
             <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
-                <div class="p-3 bg-orange-100 text-orange-800 rounded-lg"><i class="fa-solid fa-funnel-dollar text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-slate-800">2. Lộ Trình Kích Hoạt & Chuyển Đổi Dòng Tiền (Khung 90 Ngày)</h2>
+                <div class="p-3 bg-amber-100 text-amber-800 rounded-lg"><i class="fa-solid fa-sitemap text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">Kiến Trúc Tương Tác Giữa Các Cộng Đồng</h2>
+            </div>
+            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
+                <div class="mermaid">
+                    mindmap
+                      root(("TRỊ AN<br/>COMMUNITY"))
+                        ["1. Ghiền Đặc Sản - Sống Thuận Tự Nhiên"]
+                          (Nền tảng: FB Group, Zalo OA, Tiktok)
+                          (Tệp: Hội nội trợ, Yêu sức khỏe, KOCs F&B)
+                          (Nuôi dưỡng: Trị An Heritage, HTX)
+                          (Sản phẩm: Cá, Gà, Rượu, Bưởi, Nông sản)
+                        ["2. Trị An Retreat - Trạm Chữa Lành"]
+                          (Nền tảng: IG, Tiktok, FB Group, Web OTA)
+                          (Tệp: Dân xê dịch, Gia đình nghỉ dưỡng, HR Cty)
+                          (Nuôi dưỡng: Green Travel, Đảo CEO)
+                          (Sản phẩm: Tour Glamping, Team Building)
+                        ["3. Trị An Founders & Partners"]
+                          (Nền tảng: LinkedIN, Zalo Nhóm Kín, Offline Event)
+                          (Tệp: Giới Doanh nhân, Đại lý B2B, Nhà đầu tư)
+                          (Nuôi dưỡng: Holding, STC Năng lượng, BĐS)
+                          (Sản phẩm: Thẻ VIP Đảo CEO, Giải pháp STC)
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-6 md:p-8 border-t-4 border-orange-500 chart-wide">
+            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-orange-100 text-orange-800 rounded-lg"><i class="fa-solid fa-timeline text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">Lộ Trình Kích Hoạt & Phát Triển Dòng Tiền (90 Ngày)</h2>
             </div>
             <div class="mermaid-wrapper border border-slate-100 shadow-inner">
                 <div class="mermaid">
                     graph LR
-                        classDef phase fill:#78350f,stroke:#92400e,stroke-width:2px,color:#fff,font-weight:bold,font-size:16px,padding:10px;
-                        classDef action fill:#ffffff,stroke:#d97706,stroke-width:2px,color:#1e293b,font-size:14px;
+                        classDef phase fill:#78350f,stroke:#92400e,stroke-width:2px,color:#fff,font-weight:bold,font-size:14px,padding:8px;
+                        classDef action fill:#ffffff,stroke:#d97706,stroke-width:2px,color:#1e293b,font-size:13px;
                         classDef milestone fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#78350f,font-weight:bold;
 
-                        P1["GĐ 1: SEEDING & XÂY NỀN TẢNG (Tháng 1)"]:::phase
-                        P2["GĐ 2: ENGAGEMENT & LIÊN KẾT (Tháng 2)"]:::phase
-                        P3["GĐ 3: MONETIZE & MỞ RỘNG B2B (Tháng 3)"]:::phase
+                        P1["THÁNG 1:<br/>Seeding Nền Tảng"]:::phase
+                        P2["THÁNG 2:<br/>Tương Tác & Bán Hàng"]:::phase
+                        P3["THÁNG 3:<br/>Tự Vận Hành & LTV"]:::phase
 
                         P1 --> P2 --> P3
 
-                        %% Phase 1
-                        A1("1. Lập các FB Group & Mở Zalo OA"):::action
-                        A2("2. Đẩy content mồi (Hình ảnh, Video chế biến, Cảnh đẹp)"):::action
-                        A3("3. Cài đặt hệ thống Tracking Affiliate (Link CTV)"):::action
-                        A4{"Milestone 1:<br/>Đạt 5.000+ Thành viên<br/>Định vị rõ nét"}:::milestone
+                        A1("1. Lập các FB Group / Zalo OA"):::action
+                        A2("2. Đẩy nội dung Review/Vlog mồi"):::action
+                        A3("3. Tích hợp Hệ thống Affiliate"):::action
+                        A4{"Đạt 5.000+ TV<br/>Xác định tệp chuẩn"}:::milestone
 
-                        P1 --> A1 & A2 & A3
-                        A1 & A2 & A3 --> A4
+                        P1 --> A1 & A2 & A3 --> A4
 
-                        %% Phase 2
-                        B1("1. Tổ chức Minigame/Giveaway tặng Tour/Sản phẩm"):::action
-                        B2("2. Mời 50 KOCs/Tiktoker review chéo sản phẩm & Tour"):::action
-                        B3("3. Liên kết OTA và các hội nhóm Homestay địa phương"):::action
-                        B4{"Milestone 2:<br/>Bùng nổ UGC (Nội dung)<br/>Bắt đầu phát sinh đơn"}:::milestone
+                        B1("1. Mini-game tặng Tour/Sản phẩm"):::action
+                        B2("2. Đẩy chiến dịch 50 KOCs Review"):::action
+                        B3("3. Liên kết hội nhóm địa phương"):::action
+                        B4{"Bùng nổ Traffic<br/>Phát sinh Đơn lẻ"}:::milestone
 
-                        P2 --> B1 & B2 & B3
-                        A4 -. "Tương tác" .-> B1
-                        B1 & B2 & B3 --> B4
+                        P2 --> B1 & B2 & B3 --> B4
+                        A4 -. "Kích hoạt" .-> B1
 
-                        %% Phase 3
-                        C1("1. Cấp mã Affiliate cho khách hàng cũ giới thiệu"):::action
-                        C2("2. Ký MOU với Chính quyền & Công ty Lữ hành"):::action
-                        C3("3. Tổ chức Offline Event tại Đảo CEO cho Founders Club"):::action
-                        C4{"Milestone 3:<br/>Cộng đồng tự vận hành<br/>CAC giảm 50%"}:::milestone
+                        C1("1. Cấp mã cho khách cũ giới thiệu"):::action
+                        C2("2. Event Offline tại Đảo CEO"):::action
+                        C3("3. Vận hành CRM Remarketing tự động"):::action
+                        C4{"Cộng đồng Tự nuôi<br/>CAC giảm 80%"}:::milestone
 
-                        P3 --> C1 & C2 & C3
+                        P3 --> C1 & C2 & C3 --> C4
                         B4 -. "Chuyển đổi" .-> C1
-                        C1 & C2 & C3 --> C4
                 </div>
             </div>
         </section>
 
         <section class="mb-12">
-            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">3. Kế Hoạch Hành Động Chi Tiết (4 Trụ Cột Cộng Đồng)</h2>
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">4 Trụ Cột Vận Hành Cộng Đồng Lõi</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
-                <div class="glass-card p-6 border-t-4 border-amber-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-amber-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-brands fa-tiktok text-2xl text-amber-600"></i>
-                        <h3 class="text-xl font-bold">I. Số Hóa Đa Nền Tảng (Social & Web)</h3>
+                        <h3 class="text-xl font-bold">I. Content Phễu & Edutainment</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Facebook/Tiktok:</strong> Đội Content không đăng bài bán hàng nhàm chán. Tập trung vào "Edutainment" (Giáo dục + Giải trí): Cách phân biệt cá Lăng thật, Vlog 1 ngày làm nông dân ở Trị An, Review các góc check-in giấu kín.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Cổng Affiliate Tích hợp:</strong> Website của Heritage và Green Travel phải có nút "Kiếm tiền cùng Trị An". Bất kỳ ai click vào cũng có thể tạo 1 tài khoản, lấy Link/Mã giới thiệu đem đi rải trên mạng xã hội.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Zalo OA Doanh Nghiệp:</strong> Phễu cuối cùng để chốt sale. Khách từ Tiktok/FB sẽ được dẫn về Zalo. Áp dụng chatbot tự động phân luồng khách: Khách mua sỉ, khách mua lẻ, hay khách book tour.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Sản xuất Nội dung giá trị:</strong> Không đăng bài bán hàng thụ động. Xây dựng chuỗi Vlog về văn hóa bản địa, cách phân biệt đặc sản sạch, câu chuyện về nông nghiệp Net-Zero để giáo dục thị trường.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Mạng xã hội Đa kênh:</strong> Triển khai đồng loạt trên Tiktok (Video ngắn thu hút), Facebook Group (Nuôi dưỡng chuyên sâu) và Instagram (Xây dựng hình ảnh thương hiệu cao cấp).</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-orange-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-orange-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-bullhorn text-2xl text-orange-500"></i>
-                        <h3 class="text-xl font-bold">II. Kích Hoạt Lực Lượng Bán Hàng (KOCs & Affiliate)</h3>
+                        <h3 class="text-xl font-bold">II. Hỗ Trợ Đại Lý (Sales Kit)</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Chiến dịch "Đại sứ Di sản":</strong> Tuyển chọn 100 Micro-Influencers (5k-50k followers mảng ẩm thực, du lịch, mẹ bỉm). Gửi tặng họ bộ quà Heritage hoặc mời đi Tour miễn phí. Cam kết hoa hồng 15-20% trọn đời trên mỗi đơn họ bán được.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Khách hàng là Đại lý (UGC):</strong> Chính sách "Refer a Friend". Khách hàng đi tour Green Travel về sẽ được cấp mã Voucher. Nếu bạn bè của họ dùng mã này để book tour, khách cũ được nhận tiền mặt hoặc tích điểm mua Heritage.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Cung cấp "Kho Vũ Khí":</strong> Cộng tác viên rất lười làm hình ảnh. Công ty phải tạo 1 Google Drive chứa sẵn: Hình ảnh đẹp, Video HD, Text mẫu, Kịch bản Livestream. CTV chỉ việc Copy & Paste.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Kho tài nguyên tập trung:</strong> Cung cấp miễn phí kho hình ảnh HD, video chế biến và các bài viết mẫu (Storytelling) được copy-writer soạn sẵn. Giúp Đại lý/CTV tiết kiệm 100% thời gian làm nội dung.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Đào tạo Kỹ năng:</strong> Tổ chức các buổi Zoom nội bộ hướng dẫn KOCs/Đại lý cách làm Livestream bán hàng và chốt sale qua tin nhắn Zalo.</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-yellow-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-yellow-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-handshake text-2xl text-yellow-500"></i>
-                        <h3 class="text-xl font-bold">III. Liên Minh OTA, Lữ Hành & Chính Quyền</h3>
+                        <h3 class="text-xl font-bold">III. Quản Trị Hệ Thống CRM & Phễu Cuối</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Chiến thuật OTA (Online Travel Agents):</strong> Dùng Booking.com, Traveloka, Agoda không phải để lấy biên lợi nhuận (vì phí rất cao), mà để lấy "Độ phủ thương hiệu". Khi khách đã đến trải nghiệm, thu thập ngay Zalo/Email để kéo họ về tệp khách hàng trực tiếp (DTC) cho những lần sau.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Gói thầu B2B Lữ hành:</strong> Thiết kế "Gói Landtour Trị An" chào bán cho Vietravel, Saigontourist. Trị An cung cấp giá Net (giá vốn), lữ hành tự cộng lời. Đặc biệt: Tặng kèm 1 bữa lẩu Cá Lăng (Heritage) trong tour để kích thích khách mua quà mang về.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Ngoại giao Chính quyền:</strong> Hợp tác với Sở Du lịch Tỉnh Đồng Nai và Ban quản lý Rừng phòng hộ, bảo trợ truyền thông cho các chiến dịch "Bảo vệ sinh thái hồ Trị An". Biến dự án thành trọng điểm của Tỉnh.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Zalo OA Doanh Nghiệp:</strong> Điểm chạm cuối cùng. Khách hàng từ Tiktok/FB sẽ được dẫn link về Zalo. Thiết lập Chatbot kịch bản tự động phân luồng khách mua sỉ, mua lẻ, hay book tour du lịch.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Thu thập Data Trực tiếp:</strong> Thiết lập chính sách quét mã QR bảo hành/kiểm tra nguồn gốc sản phẩm trên nắp hộp Heritage để thu thập ngay Số điện thoại của khách hàng cuối.</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-red-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-red-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-gem text-2xl text-red-500"></i>
-                        <h3 class="text-xl font-bold">IV. Cộng Đồng Tinh Hoa "Founders & Partners"</h3>
+                        <h3 class="text-xl font-bold">IV. Vận Hành Câu Lạc Bộ Tinh Hoa</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Định vị Nhóm Kín:</strong> Đây là nơi tập hợp những nhà phân phối sỉ lớn của Heritage, các đối tác mua điện của STC, và các nhà đầu tư vào Đảo CEO. Không public ồn ào, chỉ hoạt động qua Zalo Group kín và sự kiện Offline.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Bán chéo Hệ sinh thái cấp cao (B2B Cross-selling):</strong> Chủ một chuỗi nhà hàng đang mua Cá Lăng của Heritage -> Có thể chốt sale họ lắp đặt Điện mặt trời mái nhà của STC cho hệ thống nhà hàng của họ.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Sự kiện "The Trị An Summit":</strong> Tổ chức hội nghị thường niên trên Đảo CEO, tri ân và trao thưởng (Vàng/Cổ phiếu) cho các Tổng đại lý xuất sắc nhất. Biến họ thành những cổ đông (Shareholders) của Holding.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Quản trị Nhóm Kín:</strong> Các nhóm Zalo nội bộ bảo mật chỉ dành riêng cho Nhà phân phối cấp 1, Đối tác B2B và Nhà đầu tư. Giao tiếp trực tiếp với Ban Giám đốc Tập đoàn.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Sự kiện Tri ân Thường niên:</strong> Tổ chức "Trị An Summit" tại Đảo CEO để vinh danh, trao thưởng bằng Vàng/Cổ phiếu nội bộ cho các cá nhân/tập thể có doanh số xuất sắc nhất năm.</li>
                     </ul>
                 </div>
 
@@ -261,9 +377,9 @@
 
     </div>
 
-    <footer class="text-center py-8 text-slate-500 text-sm mt-10 border-t border-slate-200">
-        <p class="font-bold">© 2026 TRỊ AN HOLDING ECOSYSTEM - TRỊ AN COMMUNITY HUB.</p>
-        <p class="mt-1">Designed by Executive Strategy Consulting Team</p>
+    <footer class="bg-slate-900 text-center py-8 text-slate-400 text-sm mt-10 border-t-4 border-amber-500">
+        <p class="font-bold text-slate-300">© 2026 TRỊ AN HOLDING ECOSYSTEM - TRỊ AN COMMUNITY HUB.</p>
+        <p class="mt-1">Thiết kế Kế hoạch Tăng trưởng Dữ liệu bởi Executive Strategy Consulting Team.</p>
     </footer>
 
 </body>

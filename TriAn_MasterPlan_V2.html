@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trị An Holding - Master Execution Dashboard</title>
+    <title>Trị An Heritage - Commercial Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -12,33 +12,41 @@
             startOnLoad: true, 
             theme: 'base',
             themeVariables: {
-                primaryColor: '#f8fafc',
+                primaryColor: '#f0f9ff',
                 primaryTextColor: '#0f172a',
-                primaryBorderColor: '#cbd5e1',
-                lineColor: '#94a3b8',
+                primaryBorderColor: '#bae6fd',
+                lineColor: '#0284c7',
                 secondaryColor: '#e0f2fe',
-                tertiaryColor: '#f1f5f9'
+                tertiaryColor: '#f0f9ff',
+                pie1: '#1e293b', pie2: '#3b82f6', pie3: '#10b981', pie4: '#ef4444', pie5: '#f59e0b'
             },
             securityLevel: 'loose',
-            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' }
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' },
+            pie: { useMaxWidth: true }
         });
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; }
-        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); border-radius: 1rem; }
-        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
-        .text-gradient { background: linear-gradient(90deg, #2563eb, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .gradient-text { background: linear-gradient(90deg, #2563eb, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Fix for Mermaid sizing */
-        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; }
-        .mermaid svg { min-width: 1200px; height: auto; max-height: 800px; } /* Ensures chart stays large and readable */
+        /* Cấu hình biểu đồ */
+        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; border: 1px solid #e2e8f0; width: 100%; }
+        .chart-wide .mermaid svg { min-width: 900px; max-width: 100%; height: auto; margin: 0 auto; display: block; }
+        .chart-pie { display: flex; justify-content: center; align-items: center; padding: 0; }
+        .chart-pie .mermaid svg { width: 100%; max-width: 400px !important; height: auto; margin: 0 auto; display: block; }
         
-        /* Custom Scrollbar */
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        ::-webkit-scrollbar-thumb { background: #bae6fd; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+        
+        /* Ẩn scrollbar menu mobile */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="antialiased pb-20">
@@ -63,8 +71,8 @@
                 </div>
 
                 <div class="hidden xl:flex items-center shrink-0">
-                    <span class="bg-emerald-900/20 border border-emerald-500 text-emerald-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-                        Seed Round: $300K
+                    <span class="bg-blue-900/20 border border-blue-500 text-blue-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(59,130,246,0.15)]">
+                        Thương Mại & Dòng Tiền
                     </span>
                 </div>
             </div>
@@ -81,58 +89,151 @@
             </div>
         </div>
     </nav>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Lấy tên file hiện tại trên thanh địa chỉ URL
             let path = window.location.pathname;
             let page = path.split("/").pop();
-            if (page === "") page = "index.html"; // Mặc định nếu là trang chủ
-
-            // Lấy tất cả các thẻ a có class 'nav-link'
+            if (page === "") page = "index.html"; 
             const navLinks = document.querySelectorAll('.nav-link');
-
             navLinks.forEach(link => {
                 let href = link.getAttribute('href');
-                
-                // Xóa trạng thái mặc định
                 link.classList.remove('bg-slate-700', 'text-white', 'text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
-                
                 if (href === page) {
-                    // Nếu là trang hiện tại: Đổi màu nền xám đậm, chữ trắng (Active)
                     link.classList.add('bg-[#1e293b]', 'text-white', 'shadow-md');
-                    // Riêng mobile đổi viền
                     if (window.innerWidth < 1024) {
                         link.classList.remove('border-slate-700');
                         link.classList.add('border-slate-400', 'bg-slate-700');
                     }
                 } else {
-                    // Nếu không phải trang hiện tại: Chữ xám, hover sáng lên (Inactive)
                     link.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
                 }
             });
         });
     </script>
-    <style>
-        /* Ẩn thanh cuộn xấu xí trên mobile menu */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
-    ```
-
-
-
     <div class="max-w-[95%] mx-auto mt-10 space-y-12">
 
-        <div class="text-center space-y-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Bản Đồ Thực Thi <span class="text-gradient">Trị An Heritage</span></h1>
-            <p class="text-lg text-slate-600 max-w-4xl mx-auto leading-relaxed">Chiến dịch đột phá 90 ngày: Hoàn thiện nhận diện, Chuẩn hóa chuỗi cung ứng lạnh, Xây dựng cộng đồng bán hàng liên kết (Affiliate) và Phủ sóng hệ thống phân phối B2B.</p>
+        <div class="relative bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
+            <div class="absolute inset-0 opacity-40 mix-blend-overlay" style="background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;"></div>
+            <div class="relative z-10 p-10 md:p-16 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 text-sm font-bold tracking-widest mb-4">THE CASH COW</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">Trị An Heritage</h1>
+                <p class="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed">Đơn vị thương mại cốt lõi của Trị An Holding. Chuyên cung cấp đặc sản di sản bản địa với quy chuẩn đóng gói cao cấp, quản trị chuỗi cung ứng lạnh, và hệ thống phân phối tự động hóa đa kênh.</p>
+            </div>
         </div>
 
-        <section class="glass-card p-6 md:p-8">
+        <section>
+            <div class="flex items-center space-x-3 mb-8 justify-center">
+                <i class="fa-solid fa-box-open text-3xl text-slate-800"></i>
+                <h2 class="text-3xl font-extrabold text-slate-900 text-center">Danh Mục Sản Phẩm & Định Vị</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+                
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden">
+                    <div class="h-48 relative group overflow-hidden shrink-0">
+                        <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=80" alt="Rượu Sâm Cau" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Rượu Sâm Cau & Mật Nhân</h3>
+                            <span class="bg-emerald-100 text-emerald-700 text-[11px] font-bold px-2 py-1 rounded shrink-0 whitespace-nowrap">Margin Lớn</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Định vị phân khúc quà tặng Doanh nghiệp cao cấp. Khai thác dược liệu bản địa, ngâm ủ tiêu chuẩn, bao bì hộp cứng sang trọng.</p>
+                        <div class="text-xs font-semibold text-blue-600 border-t border-slate-100 pt-3 mt-auto"><i class="fa-solid fa-bullseye mr-1"></i> B2B, Horeca, Biếu tặng</div>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden">
+                    <div class="h-48 relative group overflow-hidden shrink-0">
+                        <img src="https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=800&q=80" alt="Cá Lăng Trị An" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Cá Lăng, Cá Lìm Kìm</h3>
+                            <span class="bg-blue-100 text-blue-700 text-[11px] font-bold px-2 py-1 rounded shrink-0 whitespace-nowrap">Traffic Product</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Đặc sản hồ Trị An. Áp dụng chuẩn sơ chế hút chân không, cấp đông sâu -18°C. Giao hàng lạnh thần tốc nội thành HCM.</p>
+                        <div class="text-xs font-semibold text-blue-600 border-t border-slate-100 pt-3 mt-auto"><i class="fa-solid fa-bullseye mr-1"></i> Nội trợ, Nhà hàng lẩu</div>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden">
+                    <div class="h-48 relative group overflow-hidden shrink-0">
+                        <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80" alt="Gà Đảo" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Gà Đảo & Trống Thiến</h3>
+                            <span class="bg-amber-100 text-amber-700 text-[11px] font-bold px-2 py-1 rounded shrink-0 whitespace-nowrap">Đặc Sản Mùa</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Nuôi thả tự nhiên tại Đảo CEO và vùng đệm HTX. Thịt chắc, truy xuất nguồn gốc QR Code. Đóng gói an toàn vệ sinh.</p>
+                        <div class="text-xs font-semibold text-blue-600 border-t border-slate-100 pt-3 mt-auto"><i class="fa-solid fa-bullseye mr-1"></i> Bữa ăn gia đình cuối tuần</div>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl border-2 border-yellow-400 overflow-hidden relative">
+                    <div class="absolute top-3 right-3 bg-red-600 text-white text-[11px] font-bold px-3 py-1 rounded shadow-lg z-10 tracking-widest">BEST SELLER</div>
+                    <div class="h-48 relative group overflow-hidden shrink-0">
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Combo Quà tặng" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow bg-yellow-50/50">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Combo "Bữa Tiệc Di Sản"</h3>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Gói bán chéo (Cross-selling): Gồm 1 Cá Lăng + 1 Gà Đảo + 1 Rượu Sâm Cau. Tối ưu giá trị trung bình đơn (AOV) > 1.5M VNĐ.</p>
+                        <div class="text-xs font-semibold text-red-600 border-t border-yellow-200 pt-3 mt-auto"><i class="fa-solid fa-fire mr-1"></i> Chiến lược: Bán qua Affiliate</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <div class="bg-slate-900 rounded-2xl p-8 md:p-10 shadow-xl border border-slate-700 text-white">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-blue-400 mb-4">Unit Economics (Kinh Tế Đơn Vị)</h2>
+                        <p class="text-slate-300 mb-6 leading-relaxed">Để hệ thống Affiliate cộng đồng phát triển mạnh mẽ mà không bị "lẹm vốn", Heritage thiết lập cấu trúc chi phí nghiêm ngặt cho 1 đơn hàng tiêu chuẩn trị giá <strong class="text-yellow-400">1.500.000 VNĐ</strong>.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between bg-slate-800 p-3 rounded-lg border-l-4 border-slate-400">
+                                <span class="text-slate-300"><i class="fa-solid fa-industry mr-2 w-5 text-center"></i> Giá vốn HTX (COGS)</span>
+                                <span class="font-bold text-white">35%</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-slate-800 p-3 rounded-lg border-l-4 border-red-400">
+                                <span class="text-slate-300"><i class="fa-solid fa-box mr-2 w-5 text-center"></i> Bao bì & Ship lạnh</span>
+                                <span class="font-bold text-white">13%</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-slate-800 p-3 rounded-lg border-l-4 border-amber-400">
+                                <span class="text-slate-300"><i class="fa-solid fa-hand-holding-dollar mr-2 w-5 text-center"></i> Hoa hồng Affiliate</span>
+                                <span class="font-bold text-yellow-400">25%</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-blue-900/50 p-4 rounded-lg border-l-4 border-blue-500 shadow-inner">
+                                <span class="text-blue-200 font-bold"><i class="fa-solid fa-piggy-bank mr-2 w-5 text-center"></i> Biên lợi nhuận (Nuôi cty)</span>
+                                <span class="text-xl font-extrabold text-blue-400">27%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-4 chart-pie">
+                        <div class="mermaid-wrapper border-none shadow-none m-0 p-0 overflow-visible">
+                            <div class="mermaid">
+                                pie title "Cấu trúc 1 Đơn hàng"
+                                "Vốn Nguyên Liệu (HTX)" : 35
+                                "Hoa hồng (Affiliate)" : 25
+                                "Lợi nhuận (Nuôi Cty)" : 27
+                                "Bao bì & Ship lạnh" : 13
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+		<section class="glass-card p-6 md:p-8">
             <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
                 <div class="p-3 bg-blue-100 text-blue-700 rounded-lg"><i class="fa-solid fa-sitemap text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-slate-800">1. Kiến trúc Hệ sinh thái & Vai trò Trị An Heritage</h2>
+                <h2 class="text-2xl font-bold text-slate-800">Kiến trúc Hệ sinh thái & Vai trò Trị An Heritage</h2>
             </div>
             <div class="mermaid-wrapper border border-slate-100 shadow-inner">
                 <div class="mermaid">
@@ -163,108 +264,102 @@
             </div>
         </section>
 
-        <section class="glass-card p-6 md:p-8">
+        <section class="glass-card p-6 md:p-8 border-t-4 border-emerald-500 chart-wide">
             <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
-                <div class="p-3 bg-emerald-100 text-emerald-700 rounded-lg"><i class="fa-solid fa-project-diagram text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-slate-800">2. Lưu Đồ Trình Tự Thực Thi 90 Ngày (Tháng 3 - Tháng 5/2026)</h2>
+                <div class="p-3 bg-emerald-100 text-emerald-700 rounded-lg"><i class="fa-solid fa-rocket text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">Chiến Dịch Đột Phá 90 Ngày (Khung Thời Gian Vận Hành)</h2>
             </div>
-            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
+            <div class="mermaid-wrapper">
                 <div class="mermaid">
                     graph LR
-                        classDef month fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#fff,font-weight:bold,font-size:16px,padding:10px;
-                        classDef action fill:#ffffff,stroke:#3b82f6,stroke-width:2px,color:#1e293b,font-size:14px;
+                        classDef month fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#fff,font-weight:bold,font-size:14px,padding:8px;
+                        classDef action fill:#ffffff,stroke:#3b82f6,stroke-width:2px,color:#1e293b,font-size:13px;
                         classDef milestone fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#166534,font-weight:bold;
 
-                        M1[THÁNG 3<br/>Hoàn thiện Hạ tầng & Go-Live]:::month
-                        M2[THÁNG 4<br/>Kích hoạt Cộng đồng Affiliate]:::month
-                        M3[THÁNG 5<br/>Bùng nổ B2B & Chuẩn hóa Kênh]:::month
+                        M1["THÁNG 1:<br/>Hạ Tầng Go-Live"]:::month
+                        M2["THÁNG 2:<br/>Kích Hoạt Đại Lý"]:::month
+                        M3["THÁNG 3:<br/>Bùng Nổ B2B"]:::month
 
                         M1 --> M2 --> M3
 
-                        %% Tháng 3 Actions
-                        A1(1. Chốt thiết kế Bao bì & In ấn)
-                        A2(2. Setup Chuỗi cung ứng lạnh - Cold Chain)
-                        A3(3. Lên sóng Website E-commerce)
-                        A4(4. Cài đặt ERP KiotViet & Zalo OA CRM)
-                        A5{Milestone 1:<br/>Sản phẩm sẵn sàng<br/>lên kệ thương mại}:::milestone
+                        %% Tháng 1
+                        A1("1. Chốt Bao Bì"):::action
+                        A2("2. Hợp đồng Ship Lạnh"):::action
+                        A3("3. Cài KiotViet/Zalo OA"):::action
+                        A4{"Lên Kệ<br/>Web/App"}:::milestone
 
-                        M1 --> A1 & A2 & A3 & A4
-                        A1 & A2 & A3 & A4 --> A5
+                        M1 --> A1 & A2 & A3 --> A4
 
-                        %% Tháng 4 Actions
-                        B1(1. Tung chương trình Sampling KOCs)
-                        B2(2. Mở cổng đăng ký Affiliate/CTV)
-                        B3(3. Thiết lập chính sách Hoa hồng 10-25%)
-                        B4(4. Tung Combo Bán chéo Bữa Ăn Di Sản)
-                        B5{Milestone 2:<br/>Đạt 100+ CTV<br/>có phát sinh đơn}:::milestone
+                        %% Tháng 2
+                        B1("1. Sampling 50 KOCs"):::action
+                        B2("2. Mở cổng Affiliate"):::action
+                        B3("3. Tung Combo Bán chéo"):::action
+                        B4{"Đạt 100+ CTV<br/>có đơn"}:::milestone
 
-                        M2 --> B1 & B2 & B3 & B4
-                        A5 -. Tiền đề .-> B1
-                        B1 & B2 & B3 & B4 --> B5
+                        M2 --> B1 & B2 & B3 --> B4
+                        A4 -. "Tiền đề" .-> B1
 
-                        %% Tháng 5 Actions
-                        C1(1. Đội Sales chào hàng 50+ Horeca)
-                        C2(2. Chạy Ads Performance Tiktok/FB)
-                        C3(3. Triển khai Retention tự động qua ZNS)
-                        C4(4. Phân cấp Đại lý Cấp 1, Cấp 2, NPP)
-                        C5{Milestone 3:<br/>Dòng tiền dương<br/>Điểm hòa vốn}:::milestone
+                        %% Tháng 3
+                        C1("1. Sales B2B 50 Nhà hàng"):::action
+                        C2("2. Chạy Ads Tiktok/FB"):::action
+                        C3("3. Zalo CSKH tự động"):::action
+                        C4{"Đạt Điểm Hòa Vốn<br/>Dòng tiền Dương"}:::milestone
 
-                        M3 --> C1 & C2 & C3 & C4
-                        B5 -. Phễu mở rộng .-> C1
-                        C1 & C2 & C3 & C4 --> C5
+                        M3 --> C1 & C2 & C3 --> C4
+                        B4 -. "Nhân rộng" .-> C1
                 </div>
             </div>
         </section>
 
         <section class="mb-12">
-            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">3. Kế Hoạch Triển Khai Chi Tiết (4 Trụ Cột)</h2>
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">4 Trụ Cột Nền Tảng Vận Hành</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
-                <div class="glass-card p-6 border-t-4 border-blue-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-blue-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
-                        <i class="fa-solid fa-box-open text-2xl text-blue-500"></i>
-                        <h3 class="text-xl font-bold">I. Hệ Thống Sản Xuất & Chuỗi Lạnh</h3>
+                        <i class="fa-solid fa-snowflake text-2xl text-blue-500"></i>
+                        <h3 class="text-xl font-bold">I. Chuỗi Cung Ứng Lạnh (Cold Chain)</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Bao bì (Tháng 3):</strong> Hoàn thiện thiết kế tem nhãn chống nước, túi màng co ép chân không cho Cá Lăng, Gà Đảo. Hộp cứng cao cấp cho Rượu Sâm Cau.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Đóng gói tiêu chuẩn:</strong> Xây dựng SOP đóng thùng xốp + đá gel giữ nhiệt âm 18 độ C đảm bảo tươi ngon trong 24h-48h.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Đối tác Vận chuyển (Logistics):</strong> Ký HĐ nguyên tắc với đơn vị vận chuyển lạnh chuyên dụng (AhaMove siêu tốc, Lalamove, ABA Cooltrans cho đơn sỉ). Không dùng ship thường.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-blue-500 mt-1 mr-2"></i> <strong>Chất lượng là Sống còn:</strong> Hoàn thiện SOP hút chân không và cấp đông sâu ngay tại xưởng HTX Đồng Nai.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-blue-500 mt-1 mr-2"></i> <strong>Đóng gói Tiêu chuẩn:</strong> Sử dụng thùng xốp 3 lớp, màng co cách nhiệt và đá gel đảm bảo giữ lạnh âm 18 độ C trong tối thiểu 48 tiếng.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-blue-500 mt-1 mr-2"></i> <strong>Logistics:</strong> Hợp tác với Lalamove Lạnh / ABA Cooltrans. Tuyệt đối không giao qua đơn vị chuyển phát thường (GHTK/GHN).</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-indigo-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-laptop-code text-2xl text-indigo-500"></i>
-                        <h3 class="text-xl font-bold">II. Nền Tảng Thương Hiệu & Công Nghệ</h3>
+                        <h3 class="text-xl font-bold">II. Chuyển Đổi Số Bán Lẻ (Tech)</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Website/E-commerce:</strong> Xây dựng trang đích (Landing Page) kể câu chuyện "Di sản Trị An". Tích hợp giỏ hàng và thanh toán VNPay/Momo.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Hệ thống ERP:</strong> Sử dụng phần mềm quản lý kho và đơn hàng tập trung. Theo dõi realtime tồn kho Cá, Gà tại xưởng Đồng Nai và kho trung chuyển HCM.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Zalo OA & CRM:</strong> Thiết lập hệ thống chăm sóc khách hàng tự động. Gửi Zalo ZNS xác nhận đơn hàng, hướng dẫn rã đông & chế biến, và xin đánh giá sau 3 ngày nhận hàng.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-indigo-500 mt-1 mr-2"></i> <strong>E-Commerce & ERP:</strong> Tích hợp Website với hệ thống KiotViet/Sapo để đồng bộ Tồn kho (Cá tại xưởng, Rượu tại kho HCM) theo thời gian thực.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-indigo-500 mt-1 mr-2"></i> <strong>Hệ thống Affiliate Tự động:</strong> CTV lấy Link chia sẻ. Khi có đơn, hệ thống tự động ghi nhận hoa hồng vào ví, minh bạch tuyệt đối.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-indigo-500 mt-1 mr-2"></i> <strong>Zalo ZNS:</strong> Kịch bản CSKH tự động 1-3-7 ngày (Xác nhận đơn -> Hướng dẫn rã đông -> Xin đánh giá & Mã giảm giá).</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-emerald-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-emerald-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-users-viewfinder text-2xl text-emerald-500"></i>
-                        <h3 class="text-xl font-bold">III. Cộng Đồng & Mạng Lưới Affiliate</h3>
+                        <h3 class="text-xl font-bold">III. Cộng Đồng Đại Lý (Zero-Inventory)</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Cấu trúc Đại lý 3 Tầng:</strong> CTV (Không vốn, CK 10-15%) -> Đại lý Sỉ (Nhập 15tr, CK 20-25%) -> Tổng Đại lý/NPP (Nhập >100tr, CK 30-35%).</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Gói Content Bán hàng (Sales Kit):</strong> Cung cấp kho hình ảnh chuẩn, video chế biến, và các bài viết mẫu kể chuyện về sản phẩm sạch để CTV chỉ việc copy-paste.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Hệ thống tính hoa hồng:</strong> Tích hợp cổng Affiliate vào Web, tự động tạo Link/Mã giới thiệu riêng cho từng đối tác. Trả hoa hồng minh bạch qua ví điện tử vào ngày 5 hàng tháng.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-emerald-500 mt-1 mr-2"></i> <strong>Mô hình Đại lý không vốn:</strong> Tuyển dụng nội trợ Vinhome, KOCs ẩm thực bán hàng qua Link mà không cần bỏ tiền nhập/trữ hàng đông lạnh.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-emerald-500 mt-1 mr-2"></i> <strong>Sales Kit "Tận răng":</strong> Soạn sẵn 30 mẫu Content Storytelling, video HD chế biến món ăn, Đại lý chỉ việc Copy & Paste đăng lên FB/Tiktok.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-emerald-500 mt-1 mr-2"></i> <strong>Nâng cấp Sỉ:</strong> CTV có doanh số tốt được khuyến khích nâng cấp lên Đại lý Cấp 2 (Nhập 15-20 triệu/tháng) để hưởng biên lợi nhuận cao hơn.</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-amber-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-amber-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-handshake text-2xl text-amber-500"></i>
-                        <h3 class="text-xl font-bold">IV. B2B & Kênh Phân Phối Chiến Lược</h3>
+                        <h3 class="text-xl font-bold">IV. Đẩy Mạnh Phân Phối B2B Horeca</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Tấn công Horeca (Nhà hàng/Khách sạn):</strong> Xây dựng "Menu Trị An" chào thầu cho các hệ thống nhà hàng đặc sản, quán lẩu cao cấp tại HCM và Đồng Nai. Đảm bảo nguồn cung và hóa đơn VAT đỏ.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Combo Bán chéo (Cross-Selling):</strong> Đẩy mạnh Gói Bữa ăn (Ví dụ: Cá Lăng + Rượu Sâm Cau + Bưởi tráng miệng) để tăng Giá trị trung bình đơn (AOV) lên mức >1.500.000đ.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> <strong>Cộng đồng Trị An Green Travel:</strong> Biến khách đi tour thành đại lý vi mô. Mọi khách đến trải nghiệm đều được nếm thử và cấp mã ưu đãi để mua hàng trực tuyến sau khi về nhà.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Lợi thế cạnh tranh:</strong> Cung cấp Cá Lăng chuẩn VietGAP, quy trình chế biến có giấy tờ VSATTP và xuất được Hóa đơn VAT đỏ.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Tasting Event Đảo CEO:</strong> Mời Giám đốc các chuỗi Nhà hàng ra Đảo CEO trải nghiệm bắt cá, nếm rượu. Tỷ lệ chốt hợp đồng Bao tiêu cực cao.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-amber-500 mt-1 mr-2"></i> <strong>Giỏ Quà Doanh Nghiệp:</strong> Đóng gói các set quà Tặng Tết / Trung Thu chuyên biệt cho các tập đoàn lớn, nhà băng.</li>
                     </ul>
                 </div>
 
@@ -273,10 +368,5 @@
 
     </div>
 
-    <footer class="text-center py-8 text-slate-500 text-sm mt-10 border-t border-slate-200">
-        <p class="font-bold">© 2026 TRỊ AN HOLDING ECOSYSTEM. BẢN QUYỀN THUỘC VỀ ĐỘI NGŨ SÁNG LẬP.</p>
-        <p class="mt-1">Designed by Executive Strategy Consulting Team</p>
-    </footer>
-
-</body>
-</html>
+    <footer class="bg-slate-900 text-center py-8 text-slate-400 text-sm mt-10 border-t-4 border-blue-500">
+        <p class="font-bold text-slate-300">© 2026 TRỊ AN HOLDING ECOSYSTEM -

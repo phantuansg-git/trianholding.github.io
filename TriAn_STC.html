@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STC Năng lượng & Công nghệ - Master Execution Dashboard</title>
+    <title>STC Miền Nam - Master Execution Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -17,26 +17,36 @@
                 primaryBorderColor: '#67e8f9',
                 lineColor: '#06b6d4',
                 secondaryColor: '#f0fdfa',
-                tertiaryColor: '#ecfeff'
+                tertiaryColor: '#ecfeff',
+                pie1: '#164e63', pie2: '#0891b2', pie3: '#06b6d4', pie4: '#22d3ee'
             },
             securityLevel: 'loose',
-            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' }
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' },
+            pie: { useMaxWidth: true }
         });
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
-        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border-radius: 1rem; }
-        .gradient-bg { background: linear-gradient(135deg, #0891b2 0%, #0f766e 100%); }
-        .text-gradient { background: linear-gradient(90deg, #06b6d4, #14b8a6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .gradient-text { background: linear-gradient(90deg, #06b6d4, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; }
-        .mermaid svg { min-width: 1100px; height: auto; max-height: 800px; }
-        
+        /* Cấu hình biểu đồ Mermaid */
+        .mermaid-wrapper { overflow-x: auto; overflow-y: hidden; padding: 20px; background: #fff; border-radius: 0.75rem; border: 1px solid #e2e8f0; width: 100%; }
+        .chart-wide .mermaid svg { min-width: 900px; max-width: 100%; height: auto; margin: 0 auto; display: block; }
+        .chart-pie { display: flex; justify-content: center; align-items: center; padding: 0; }
+        .chart-pie .mermaid svg { width: 100%; max-width: 400px !important; height: auto; margin: 0 auto; display: block; }
+
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #67e8f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+        
+        /* Ẩn scrollbar menu mobile */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="antialiased pb-20">
@@ -61,8 +71,8 @@
                 </div>
 
                 <div class="hidden xl:flex items-center shrink-0">
-                    <span class="bg-emerald-900/20 border border-emerald-500 text-emerald-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-                        Seed Round: $300K
+                    <span class="bg-cyan-900/20 border border-cyan-500 text-cyan-400 px-5 py-1.5 rounded-full text-sm font-bold tracking-wide shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                        Hạ Tầng Năng Lượng & Tech
                     </span>
                 </div>
             </div>
@@ -79,181 +89,284 @@
             </div>
         </div>
     </nav>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Lấy tên file hiện tại trên thanh địa chỉ URL
             let path = window.location.pathname;
             let page = path.split("/").pop();
-            if (page === "") page = "index.html"; // Mặc định nếu là trang chủ
-
-            // Lấy tất cả các thẻ a có class 'nav-link'
+            if (page === "") page = "index.html"; 
             const navLinks = document.querySelectorAll('.nav-link');
-
             navLinks.forEach(link => {
                 let href = link.getAttribute('href');
-                
-                // Xóa trạng thái mặc định
                 link.classList.remove('bg-slate-700', 'text-white', 'text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
-                
                 if (href === page) {
-                    // Nếu là trang hiện tại: Đổi màu nền xám đậm, chữ trắng (Active)
                     link.classList.add('bg-[#1e293b]', 'text-white', 'shadow-md');
-                    // Riêng mobile đổi viền
                     if (window.innerWidth < 1024) {
                         link.classList.remove('border-slate-700');
                         link.classList.add('border-slate-400', 'bg-slate-700');
                     }
                 } else {
-                    // Nếu không phải trang hiện tại: Chữ xám, hover sáng lên (Inactive)
                     link.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-700/50');
                 }
             });
         });
     </script>
-    <style>
-        /* Ẩn thanh cuộn xấu xí trên mobile menu */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
-    ```
-
-
-
     <div class="max-w-[95%] mx-auto mt-10 space-y-12">
 
-        <div class="text-center space-y-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Quy Hoạch Xương Sống <span class="text-gradient">Năng Lượng & IoT</span></h1>
-            <p class="text-lg text-slate-600 max-w-4xl mx-auto leading-relaxed">STC cung cấp hạ tầng chuyển đổi số, năng lượng tái tạo cho toàn bộ hệ sinh thái, đồng thời nhân rộng mô hình "Agrivoltaics" (Nông nghiệp dưới pin mặt trời) để phát triển quỹ đất và mở ra nguồn thu từ chứng chỉ Carbon.</p>
+        <div class="relative bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
+            <div class="absolute inset-0 opacity-40 mix-blend-overlay" style="background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;"></div>
+            <div class="relative z-10 p-10 md:p-16 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 text-sm font-bold tracking-widest mb-4 uppercase">Xương Sống Hệ Sinh Thái</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">STC Miền Nam</h1>
+                <p class="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed">Đơn vị tiên phong cung cấp giải pháp Năng lượng tái tạo (Điện mặt trời, Pin lưu trữ BESS) và Công nghệ số (IoT/ERP). Đảm bảo chuẩn Net-Zero cho Tập đoàn và tạo ra nguồn doanh thu độc lập từ tín chỉ Carbon & các dự án B2B bên ngoài.</p>
+            </div>
         </div>
 
-        <section class="glass-card p-6 md:p-8 border-t-4 border-cyan-600">
-            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
-                <div class="p-3 bg-cyan-100 text-cyan-800 rounded-lg"><i class="fa-solid fa-network-wired text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-slate-800">1. Ma Trận Dịch Vụ & Chuyển Giao Công Nghệ STC</h2>
+        <section>
+            <div class="flex items-center space-x-3 mb-8 justify-center">
+                <i class="fa-solid fa-solar-panel text-3xl text-slate-800"></i>
+                <h2 class="text-3xl font-extrabold text-slate-900 text-center">Danh Mục Giải Pháp Năng Lượng & Hạ Tầng</h2>
             </div>
-            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
-                <div class="mermaid">
-                    mindmap
-                      root((STC NĂNG LƯỢNG & TECH))
-                        Cung Cấp Năng Lượng Xanh
-                          Điện mặt trời mái nhà (Cho HTX)
-                          Hệ thống Off-grid (Cho Đảo CEO)
-                          Thương mại điện DPPA (Bán ra ngoài)
-                        Nông Nghiệp Công Nghệ Cao (Agri-Tech)
-                          Cảm biến nước cho Cá Lăng
-                          Cảm biến đất và vi khí hậu
-                          Hệ thống tưới tiêu tự động
-                        Chuyển Đổi Số (Digital)
-                          Hệ thống ERP Tập đoàn
-                          Data Center & App Green Travel
-                          QR Code Truy xuất nguồn gốc
-                        Tín Chỉ Carbon & ESG
-                          Đo lường dấu chân Carbon
-                          Phát hành Chứng chỉ I-REC
-                          Tư vấn ESG cho đối tác
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+                
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-blue-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?auto=format&fit=crop&w=800&q=80" alt="Điện mặt trời mái nhà" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Điện Mặt Trời Áp Mái (C&I)</h3>
+                            <span class="bg-blue-100 text-blue-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Scale-up B2B</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Lắp đặt hệ thống điện mặt trời trên mái nhà máy, xưởng sản xuất, KCN. Phục vụ tự dùng (Captive power) và cơ chế mua bán điện trực tiếp DPPA.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-cyan-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1558449028-b53a39d100fc?auto=format&fit=crop&w=800&q=80" alt="Hệ thống lưu trữ năng lượng" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Hệ Thống Pin Lưu Trữ (BESS)</h3>
+                            <span class="bg-cyan-100 text-cyan-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Off-Grid Core</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Triển khai giải pháp lưu trữ năng lượng. Cắt giảm đỉnh phụ tải (Peak shaving) và cung cấp điện liên tục 24/7 cho các hệ sinh thái độc lập như Đảo CEO.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl overflow-hidden border-t-4 border-emerald-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80" alt="Năng lượng hồ Trị An" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Năng Lượng Xanh Làng Bè</h3>
+                            <span class="bg-emerald-100 text-emerald-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Micro-Grid</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Phát triển giải pháp điện mặt trời nổi và quy mô nhỏ chuyên biệt cho các hộ nuôi cá lồng bè, farmstay, homestay ven hồ Trị An chưa có điện lưới.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card flex flex-col h-full rounded-2xl border-t-4 border-purple-500 overflow-hidden">
+                    <div class="w-full relative group overflow-hidden shrink-0 bg-slate-100" style="padding-top: 56.25%;">
+                        <img src="https://images.unsplash.com/photo-1592838064575-70ed626d3a0e?auto=format&fit=crop&w=800&q=80" alt="Agrivoltaics" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow bg-purple-50/30">
+                        <div class="flex justify-between items-start mb-3 gap-2">
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">Nông Nghiệp Kép (Agrivoltaics)</h3>
+                            <span class="bg-purple-100 text-purple-700 text-[11px] font-bold px-2 py-1 rounded shrink-0">Tối Ưu Quỹ Đất</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 flex-grow">Mô hình sản xuất kép: Bên trên lắp giàn pin mặt trời phát điện, bên dưới tán pin giao cho Liên Minh HTX canh tác sâm cau và chăn nuôi gà.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="bg-gradient-to-br from-slate-900 to-cyan-950 rounded-3xl p-10 md:p-16 border border-cyan-800 shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 mix-blend-overlay opacity-30" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;"></div>
+            
+            <div class="relative z-10 text-center mb-12">
+                <span class="inline-block py-1 px-3 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 text-sm font-bold tracking-widest mb-4 uppercase">Mô Hình Dòng Tiền Vững Chắc</span>
+                <h2 class="text-4xl font-extrabold text-white tracking-tight">Chiến Lược Công Nghệ & Khai Thác Giá Trị</h2>
+                <p class="text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed mt-4">STC không chỉ đầu tư, mà là một trung tâm lợi nhuận (Profit Center) độc lập thông qua các giải pháp số hóa, tín chỉ Carbon và mở rộng tệp khách hàng B2B.</p>
+            </div>
+
+            <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Data & ERP" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">1. Giải Pháp Số Hóa (IoT & ERP)</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Là Tổng công trình sư thiết lập hệ thống cảm biến môi trường nước/đất (IoT) cho HTX. Xây dựng Data Center và liên thông ERP quản lý chuỗi cung ứng, tồn kho, dòng tiền cho toàn bộ Tập đoàn.</p>
+                    </div>
+                    <div class="text-xs font-medium text-cyan-300 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-server mr-2"></i> Vai trò: Nền tảng dữ liệu Tập đoàn</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=80" alt="ESG & Carbon" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">2. Tín Chỉ Carbon & Chứng Chỉ I-REC</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Đo lường và thu thập dữ liệu giảm phát thải từ các dự án điện mặt trời, bảo tồn rừng và nông nghiệp hữu cơ. Đăng ký phát hành chứng chỉ I-REC và Tín chỉ Carbon để bán cho các Tập đoàn FDI đa quốc gia.</p>
+                    </div>
+                    <div class="text-xs font-medium text-emerald-400 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-leaf mr-2"></i> Doanh thu biên: Mỏ vàng từ phát triển bền vững</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group border-l-4 border-blue-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Internal Captive Power" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">3. Bao Phủ Năng Lượng Nội Bộ (Captive Power)</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Lắp đặt 100% nhu cầu điện năng cho kho lạnh HTX, trung tâm sơ chế, khu nghỉ dưỡng Green Travel. Tiền điện hàng tháng các đơn vị này trả sẽ được hạch toán chuyển về làm doanh thu nội bộ bền vững cho STC.</p>
+                    </div>
+                    <div class="text-xs font-medium text-cyan-300 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-bolt mr-2"></i> Giảm 30-40% Giá vốn hàng bán (COGS) toàn Tập đoàn</div>
+                </div>
+
+                <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 backdrop-blur-sm flex flex-col h-full group border-l-4 border-amber-500">
+                    <div class="w-full relative group overflow-hidden shrink-0 rounded-xl mb-6 bg-slate-100" style="padding-top: 50%;">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="B2B Expansion" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <h4 class="text-lg font-bold text-white leading-tight">4. Mở Rộng Thị Trường B2B Độc Lập</h4>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-4">Sử dụng Đảo CEO và khu sản xuất HTX làm Showroom thực tế (Portfolio) để chứng minh năng lực kỹ thuật. Từ đó đấu thầu triển khai các dự án Solar Roof, BESS cho các Cụm Công nghiệp, nhà máy và khu nghỉ dưỡng bên ngoài.</p>
+                    </div>
+                    <div class="text-xs font-medium text-amber-400 border-t border-slate-700 pt-3 mt-auto flex items-center"><i class="fa-solid fa-chart-line mr-2"></i> Mục tiêu: Trở thành Đơn vị năng lượng top đầu miền Nam</div>
                 </div>
             </div>
         </section>
 
-        <section class="glass-card p-6 md:p-8 border-t-4 border-teal-600">
+        <section class="glass-card p-6 md:p-8 border-t-4 border-cyan-600 chart-wide">
+            <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
+                <div class="p-3 bg-cyan-100 text-cyan-800 rounded-lg"><i class="fa-solid fa-sitemap text-xl"></i></div>
+                <h2 class="text-2xl font-bold text-slate-800">Cấu Trúc Hoạt Động Doanh Nghiệp (STC)</h2>
+            </div>
+            <div class="mermaid-wrapper">
+                <div class="mermaid">
+                    mindmap
+                      root((STC MIỀN NAM))
+                        ["1. Giải Pháp Năng Lượng"]
+                          (Hệ thống Solar C&I Nhà máy)
+                          (Điện mặt trời Làng bè / Farmstay)
+                          (Hệ thống Pin lưu trữ BESS)
+                          (Mô hình Nông nghiệp kép Agrivoltaics)
+                        ["2. Chuyển Đổi Số (Tech)"]
+                          (Hệ thống ERP Tập đoàn)
+                          (Cảm biến IoT Nông nghiệp)
+                          (Hệ thống QR Blockchain Truy xuất)
+                        ["3. Tín Chỉ & ESG"]
+                          (Kiểm kê Khí nhà kính)
+                          (Phát hành Chứng chỉ I-REC)
+                          (Bán Tín chỉ Carbon)
+                        ["4. Vận Hành Kinh Doanh"]
+                          (Bán điện nội bộ Captive Power)
+                          (Bán điện trực tiếp DPPA)
+                          (Thầu EPC dự án B2B)
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-6 md:p-8 border-t-4 border-teal-600 chart-wide">
             <div class="flex items-center space-x-3 mb-6 border-b border-slate-200 pb-4">
                 <div class="p-3 bg-teal-100 text-teal-800 rounded-lg"><i class="fa-solid fa-timeline text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-slate-800">2. Lộ Trình Phủ Xanh & Mở Rộng Quy Mô (2026 - 2027)</h2>
+                <h2 class="text-2xl font-bold text-slate-800">Lộ Trình Phủ Xanh & Thương Mại Hóa B2B (2026 - 2027)</h2>
             </div>
-            <div class="mermaid-wrapper border border-slate-100 shadow-inner">
+            <div class="mermaid-wrapper">
                 <div class="mermaid">
                     graph LR
-                        classDef phase fill:#083344,stroke:#0e7490,stroke-width:2px,color:#fff,font-weight:bold,font-size:16px,padding:10px;
-                        classDef action fill:#ffffff,stroke:#06b6d4,stroke-width:2px,color:#1e293b,font-size:14px;
+                        classDef phase fill:#083344,stroke:#0e7490,stroke-width:2px,color:#fff,font-weight:bold,font-size:14px,padding:8px;
+                        classDef action fill:#ffffff,stroke:#06b6d4,stroke-width:2px,color:#1e293b,font-size:13px;
                         classDef milestone fill:#ecfeff,stroke:#06b6d4,stroke-width:2px,color:#083344,font-weight:bold;
 
-                        P1["GĐ 1: PHỦ XANH NỘI BỘ & SỐ HÓA"]:::phase
-                        P2["GĐ 2: NHÂN RỘNG MÔ HÌNH NÔNG HỘ"]:::phase
-                        P3["GĐ 3: THƯƠNG MẠI HÓA DPPA & B2B"]:::phase
+                        P1["GĐ 1:<br/>Phủ Xanh Nội Bộ & ERP"]:::phase
+                        P2["GĐ 2:<br/>Mở Rộng Nông Hộ Vệ Tinh"]:::phase
+                        P3["GĐ 3:<br/>Thương Mại DPPA & ESG"]:::phase
 
                         P1 --> P2 --> P3
 
-                        %% Phase 1
-                        A1("1. Lắp Solar mái xưởng Liên Minh HTX"):::action
-                        A2("2. Cài đặt ERP & CRM cho toàn Trị An Holding"):::action
-                        A3("3. Triển khai IoT đo lường vi khí hậu"):::action
-                        A4{"Milestone 1:<br/>Giảm 30% Chi phí điện<br/>Số hóa toàn diện"}:::milestone
+                        A1("1. Lắp Solar tại xưởng HTX"):::action
+                        A2("2. Lắp BESS tại Đảo CEO"):::action
+                        A3("3. Triển khai ERP toàn Tập đoàn"):::action
+                        A4{"Giảm 30% Chi phí điện<br/>Số hóa toàn diện"}:::milestone
 
-                        P1 --> A1 & A2 & A3
-                        A1 & A2 & A3 --> A4
+                        P1 --> A1 & A2 & A3 --> A4
 
-                        %% Phase 2
-                        B1("1. Gói combo Điện Mặt Trời + Bao tiêu Nông sản"):::action
-                        B2("2. STC đầu tư pin mái, HTX chăn nuôi bên dưới"):::action
-                        B3("3. Cung cấp App quản lý Farm cho Nông dân"):::action
-                        B4{"Milestone 2:<br/>Mở rộng +50 hecta<br/>Quỹ đất liên kết"}:::milestone
+                        B1("1. Chào gói Solar + Bao tiêu Nông sản"):::action
+                        B2("2. Lắp đặt Solar Làng bè/Homestay"):::action
+                        B3("3. Cài Cảm biến IoT Nước/Đất"):::action
+                        B4{"Scale-up mạng lưới<br/>Agrivoltaics"}:::milestone
 
-                        P2 --> B1 & B2 & B3
-                        A4 -. "Scale up" .-> B1
-                        B1 & B2 & B3 --> B4
+                        P2 --> B1 & B2 & B3 --> B4
+                        A4 -. "Nền tảng" .-> B1
 
-                        %% Phase 3
-                        C1("1. Đăng ký bán điện trực tiếp (DPPA) cho KCN"):::action
-                        C2("2. Hoàn thiện hồ sơ phát hành tín chỉ I-REC"):::action
-                        C3("3. Bán giải pháp Smart Farm cho trang trại khác"):::action
-                        C4{"Milestone 3:<br/>STC trở thành<br/>Trung tâm Lợi nhuận (Profit Center)"}:::milestone
+                        C1("1. Bán điện DPPA cho Cụm KCN"):::action
+                        C2("2. Cấp hồ sơ chứng chỉ I-REC"):::action
+                        C3("3. Thầu dự án B2B bên ngoài"):::action
+                        C4{"STC trở thành<br/>Trung tâm Lợi Nhuận"}:::milestone
 
-                        P3 --> C1 & C2 & C3
-                        B4 -. "Monetize" .-> C1
-                        C1 & C2 & C3 --> C4
+                        P3 --> C1 & C2 & C3 --> C4
+                        B4 -. "Tăng tốc" .-> C1
                 </div>
             </div>
         </section>
 
         <section class="mb-12">
-            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">3. Kế Hoạch Hành Động Chi Tiết Khối Năng Lượng & Công Nghệ</h2>
+            <h2 class="text-3xl font-extrabold text-slate-800 mb-8 text-center">4 Trụ Cột Triển Khai Thực Tế</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
-                <div class="glass-card p-6 border-t-4 border-cyan-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-cyan-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-bolt text-2xl text-cyan-500"></i>
-                        <h3 class="text-xl font-bold">I. Tối Ưu Năng Lượng Nội Bộ (Captive Power)</h3>
+                        <h3 class="text-xl font-bold">I. Tối Ưu Năng Lượng Lõi (Captive)</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Hạ tầng HTX:</strong> Thi công hệ thống điện mặt trời áp mái (Rooftop Solar) trên các xưởng chế biến đông lạnh. Các hệ thống máy nén lạnh ngốn rất nhiều điện, dùng solar sẽ cắt giảm trực tiếp 30-40% Giá vốn hàng bán (COGS) cho Heritage.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Hạ tầng Đảo CEO:</strong> Lắp đặt hệ thống Solar Độc lập (Off-grid) kèm Pin lưu trữ (ESS), biến Đảo CEO thành ốc đảo sinh thái 100% không dùng lưới điện quốc gia. Đảo CEO sẽ trả "tiền điện" nội bộ cho STC hàng tháng.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Hạ tầng HTX:</strong> Thi công hệ thống điện mặt trời áp mái (Rooftop Solar) trên các xưởng chế biến đông lạnh. Các hệ thống máy nén lạnh ngốn rất nhiều điện, dùng solar sẽ cắt giảm trực tiếp 30-40% Giá vốn hàng bán (COGS).</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Hạ tầng Đảo CEO:</strong> Lắp đặt hệ thống Solar Độc lập (Off-grid) kèm Pin lưu trữ (BESS), biến Đảo CEO thành ốc đảo sinh thái 100% không dùng lưới điện quốc gia. Đảo CEO sẽ hạch toán tiền điện nội bộ cho STC hàng tháng.</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-teal-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-teal-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-seedling text-2xl text-teal-500"></i>
-                        <h3 class="text-xl font-bold">II. Mô Hình "Agrivoltaics" & Mở Rộng Liên Kết</h3>
+                        <h3 class="text-xl font-bold">II. Mô Hình Agrivoltaics & Liên Kết</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Sự kết hợp hoàn hảo:</strong> STC không mua đất. STC ký hợp đồng với nông dân: STC sẽ đầu tư khung giàn và tấm pin mặt trời trên đất của nông dân. Bên dưới giàn pin, nông dân trồng Sâm Cau (loài cây ưa bóng râm) hoặc nuôi gà.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Lợi ích kép (Win-Win):</strong> STC thu tiền từ việc bán điện lưới. HTX mua lại Sâm Cau/Gà của nông dân với chất lượng chuẩn. Nông dân có thêm thu nhập từ tiền cho thuê mái/bóng râm mà vẫn canh tác được.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Gói giải pháp Turnkey:</strong> Đóng gói mô hình "Smart Farm" này để đi chào bán cho các quỹ đất nông nghiệp nhàn rỗi tại Đồng Nai.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Cộng hưởng với HTX:</strong> STC không mua đất. STC ký hợp đồng với nông dân để lắp giàn pin mặt trời trên đất của họ. Bên dưới giàn pin, nông dân trồng Sâm Cau hoặc nuôi gà theo sự bao tiêu của HTX.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Lợi ích kép (Win-Win):</strong> STC có mặt bằng làm điện không tốn tiền thuê đất. HTX có vùng nguyên liệu sạch. Nông dân có thu nhập từ cho thuê mái và bán nông sản.</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-sky-500 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-sky-500 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-solid fa-server text-2xl text-sky-500"></i>
-                        <h3 class="text-xl font-bold">III. Hạ Tầng Công Nghệ & Dữ Liệu (IoT/ERP)</h3>
+                        <h3 class="text-xl font-bold">III. Hạ Tầng Công Nghệ & ERP</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Ứng dụng IoT vào Thủy sản:</strong> Lắp đặt các trạm phao cảm biến (Sensor Buoys) tại vùng nuôi Cá Lăng để đo nồng độ Oxy hòa tan, pH, nhiệt độ nước 24/7. Cảnh báo tự động qua App để tránh rủi ro cá chết hàng loạt.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Nền tảng ERP Holding:</strong> STC đóng vai trò là "Tổng công trình sư" triển khai hệ thống phần mềm kế toán, kho bãi liên thông giữa HTX (sản xuất) và Heritage (bán hàng).</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Hệ thống QR Blockchain:</strong> Tạo ra các mã QR truy xuất nguồn gốc không thể làm giả, dán lên bao bì Heritage.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Trạm phao IoT (Sensor Buoys):</strong> Lắp đặt tại vùng nuôi Cá Lăng để đo nồng độ Oxy, pH, nhiệt độ nước 24/7. Cảnh báo tự động qua App để tránh rủi ro dịch bệnh.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Kiến trúc ERP:</strong> Chịu trách nhiệm triển khai, vận hành và bảo trì hệ thống phần mềm quản trị doanh nghiệp, đồng bộ dữ liệu xuyên suốt từ Sản xuất (HTX) đến Bán hàng (Heritage).</li>
                     </ul>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-blue-600 hover:shadow-lg transition-shadow">
+                <div class="glass-card p-6 border-l-4 border-blue-600 hover:shadow-lg transition-shadow">
                     <div class="flex items-center space-x-3 mb-4">
-                        <i class="fa-solid fa-leaf text-2xl text-blue-600"></i>
-                        <h3 class="text-xl font-bold">IV. Tín Chỉ Carbon & Doanh Thu Độc Lập B2B</h3>
+                        <i class="fa-solid fa-earth-americas text-2xl text-blue-600"></i>
+                        <h3 class="text-xl font-bold">IV. Doanh Thu Độc Lập B2B & ESG</h3>
                     </div>
                     <ul class="space-y-3 text-slate-600 text-sm">
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Cơ chế DPPA:</strong> Tận dụng Nghị định Mua bán điện trực tiếp (DPPA) năm 2025. STC lắp đặt các dự án điện mặt trời lớn và ký hợp đồng bán điện trực tiếp cho các nhà máy trong Khu công nghiệp lân cận (Amata, Biên Hòa).</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Tín chỉ REC & Carbon:</strong> Thu thập dữ liệu giảm phát thải từ các dự án điện mặt trời và rừng sinh thái Đảo CEO để đăng ký chứng nhận I-REC. Bán chứng chỉ này cho các tập đoàn đa quốc gia (FDI) đang cần bù đắp dấu chân Carbon.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Tách hạch toán độc lập:</strong> Biến STC từ một phòng ban "tiêu tiền" của tập đoàn thành một công ty công nghệ có dòng doanh thu (Revenue Stream) B2B độc lập, đóng góp lợi nhuận gộp cho Holding.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Cơ chế bán điện DPPA:</strong> STC lắp đặt các trạm điện mặt trời quy mô lớn và bán trực tiếp (DPPA) cho các nhà máy tại các Khu Công Nghiệp lân cận Biên Hòa, Đồng Nai.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-cyan-500 mt-1 mr-2"></i> <strong>Khai thác I-REC:</strong> Đăng ký và bán chứng chỉ năng lượng tái tạo (I-REC) cho các tập đoàn đa quốc gia có nhu cầu trung hòa Carbon theo tiêu chuẩn quốc tế.</li>
                     </ul>
                 </div>
 
@@ -262,9 +375,9 @@
 
     </div>
 
-    <footer class="text-center py-8 text-slate-500 text-sm mt-10 border-t border-slate-200">
-        <p class="font-bold">© 2026 TRỊ AN HOLDING ECOSYSTEM - KHỐI NĂNG LƯỢNG & CÔNG NGHỆ STC.</p>
-        <p class="mt-1">Designed by Executive Strategy Consulting Team</p>
+    <footer class="bg-slate-900 text-center py-8 text-slate-400 text-sm mt-10 border-t-4 border-cyan-600">
+        <p class="font-bold text-slate-300">© 2026 TRỊ AN HOLDING ECOSYSTEM - KHỐI NĂNG LƯỢNG & CÔNG NGHỆ STC.</p>
+        <p class="mt-1">Tài liệu Nội bộ Quản trị Chiến lược Doanh nghiệp.</p>
     </footer>
 
 </body>
